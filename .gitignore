@@ -1,58 +1,56 @@
-pokefarm-server/HELP.md
-pokefarm-server/target/
-pokefarm-server/!.mvn/wrapper/maven-wrapper.jar
-pokefarm-server/!**/src/main/**/target/
-pokefarm-server/!**/src/test/**/target/
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 ### STS ###
-pokefarm-server/.apt_generated
-pokefarm-server/.classpath
-pokefarm-server/.factorypath
-pokefarm-server/.project
-pokefarm-server/.settings
-pokefarm-server/.springBeans
-pokefarm-server/.sts4-cache
+*.class
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
 ### IntelliJ IDEA ###
-pokefarm-server/.idea
-pokefarm-server/*.iws
-pokefarm-server/*.iml
-pokefarm-server/*.ipr
+.idea
+*.iws
+*.iml
+*.ipr
 
 ### NetBeans ###
-pokefarm-server/nbproject/private/
-pokefarm-server/nbbuild/
-pokefarm-server/dist/
-pokefarm-server/nbdist/
-pokefarm-server/.nb-gradle/
-pokefarm-server/build/
-pokefarm-server/!**/src/main/**/build/
-pokefarm-server/!**/src/test/**/build/
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
 
 # dependencies
-client/node_modules
-client/.pnp
-client/.pnp.js
+node_modules
+.pnp
+.pnp.js
 
 # testing
-client/coverage
+coverage
 
 # production
-client/build
+build
 
 # misc
-client/.DS_Store
-client/.env.local
-client/.env.development.local
-client/.env.test.local
-client/.env.production.local
-
-client/npm-debug.log*
-client/yarn-debug.log*
-client/yarn-error.log*
-
-# Parent folder
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
