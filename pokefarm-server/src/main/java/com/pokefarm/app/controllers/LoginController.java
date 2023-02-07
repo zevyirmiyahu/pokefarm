@@ -15,7 +15,7 @@ public class LoginController {
 	@PostMapping(value = "/Login", consumes = {"text/plain", "application/*"})
 	public String getUserLogin(@RequestBody JsonNode credentials) {
 		final LoginService loginService = new LoginService();
-		String userName = credentials.get("user").textValue();
+		String userName = credentials.get("username").textValue();
 		String password = credentials.get("password").textValue();
 
 		return loginService.buildResponse(userName, password);

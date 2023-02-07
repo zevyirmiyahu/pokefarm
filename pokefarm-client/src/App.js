@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { ROUTES, SESSION } from "./constants/AppConstants";
+import { ROUTES } from "./constants/AppConstants";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/loginpage/LoginPage";
 import ProfilePage from "./pages/profilepage/ProfilePage";
@@ -14,7 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<LayoutPage />} />
           <Route index element={<LoginPage />} />
-          <Route path={ROUTES.CREATE} element={<CreateAccountPage />} />
+          <Route path={ROUTES.SIGNUP} element={<CreateAccountPage />} />
           <Route
             path={ROUTES.USER_ACCOUNT}
             element={

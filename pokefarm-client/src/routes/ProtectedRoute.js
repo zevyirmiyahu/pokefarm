@@ -5,7 +5,7 @@ import { ROUTES } from "../constants/AppConstants";
 export const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
 
-  if (data === undefined || !data.user) {
+  if (!user) {
     // Not Authenticated
     return <Navigate to={ROUTES.LOGIN_IN} />;
   }

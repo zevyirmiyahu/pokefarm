@@ -12,7 +12,7 @@ const SESSION = Object.freeze({
 
 const ROUTES = Object.freeze({
   LOGIN_IN: "/",
-  CREATE: "create",
+  SIGNUP: "signup",
   USER_ACCOUNT: "user-account",
 });
 

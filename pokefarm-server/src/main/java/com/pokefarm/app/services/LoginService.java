@@ -7,10 +7,12 @@ import org.json.JSONObject;
 
 import com.pokefarm.app.constants.PokeAppConstants.STATUS;
 import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
-import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;; 
+import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
+import com.pokefarm.app.constants.PokeAppConstants.RESPONSE;; 
 
 public class LoginService {
 	// Dummy credentials
+	private String adminId = "01";
 	private String adminUser = "admin";
 	private String adminPassword = "testing1";
 	
@@ -20,9 +22,11 @@ public class LoginService {
 		String token = generateToken(status);
 		
 		JSONObject jsonOb = new JSONObject();
-		jsonOb.put(JSON_KEYS.USER, userName);
-		jsonOb.put(JSON_KEYS.PASSWORD, password);
-		jsonOb.put(JSON_KEYS.TOKEN, token);
+		jsonOb.put(JSON_KEYS.USER_ID, adminId);
+		jsonOb.put(JSON_KEYS.USER_NAME, userName);
+		jsonOb.put(JSON_KEYS.POKEMONS, new Object[10]);
+		jsonOb.put(JSON_KEYS.LOGIN_REPONSE, RESPONSE.SUCCESS);
+		
 		
 		return jsonOb.toString();
 	}

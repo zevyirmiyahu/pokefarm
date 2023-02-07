@@ -1,17 +1,27 @@
 import React from "react";
 import banner from "../../assets/pokemon-page-banner.png";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";
+import { ROUTES } from "../../constants/AppConstants";
 
 const Banner = () => {
   return <img src={banner} alt="Pokemon Banner Image" />;
 };
 
+export const handleLogout = (navigate, setUser) => {
+  setUser(null);
+  navigate(ROUTES.LOGIN_IN);
+};
+
 const LogoutButton = (logout) => {
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
+
   return (
     <form>
       <button
         onClick={() => {
-          logout();
+          handleLogout(navigate, setUser);
         }}
       >
         Logout
