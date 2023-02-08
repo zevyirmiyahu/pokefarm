@@ -1,6 +1,7 @@
 package com.pokefarm.app.services;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import org.json.JSONObject;
@@ -24,7 +25,7 @@ public class LoginService {
 		JSONObject jsonOb = new JSONObject();
 		jsonOb.put(JSON_KEYS.USER_ID, adminId);
 		jsonOb.put(JSON_KEYS.USER_NAME, userName);
-		jsonOb.put(JSON_KEYS.POKEMONS, new Object[10]);
+		jsonOb.put(JSON_KEYS.POKEMONS, new ArrayList<Object>());
 		jsonOb.put(JSON_KEYS.LOGIN_REPONSE, RESPONSE.SUCCESS);
 		
 		

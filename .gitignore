@@ -67,7 +67,7 @@ nb-configuration.xml
 /out-tsc
 
 # dependencies
-/node_modules
+pokefarm-client/node_modules
 
 # IDEs and editors
 /.idea

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES, LOGIN } from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import axios from "axios";
+import LoginBanner from "../../components/banners/LoginBanner";
 
 // const InvalidCredentials = () => {
 //   if (isInvalidCredentials) {
@@ -56,6 +57,7 @@ const LoginPage = () => {
 
   return (
     <div>
+      <LoginBanner />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label>

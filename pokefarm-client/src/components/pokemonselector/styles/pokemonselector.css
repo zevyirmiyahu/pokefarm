@@ -1,0 +1,21 @@
+.pokemon-selector-starter-container {
+  display: flex;
+  background-color: lightblue;
+  border-style: solid;
+  border-color: aqua;
+  border-width: 3px;
+}
+
+.pokemon-selector-starter-inner-container {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pokemon-selector-button {
+  cursor: pointer;
+}
+
+.pokemon-selector-button:hover {
+  transform: scale(1.1);
+}
