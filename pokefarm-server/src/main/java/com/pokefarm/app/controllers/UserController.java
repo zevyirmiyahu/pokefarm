@@ -17,7 +17,7 @@ import com.pokefarm.app.services.UserService;
 public class UserController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping(value = "/select-pokemon", consumes = {"text/plain", "application/*"})
+	@PostMapping(value = "/update-user", consumes = {"text/plain", "application/*"})
 	public ResponseEntity<User> updateUser(@RequestBody final JsonNode user) {
 		final UserService loginService = new UserService();
 		

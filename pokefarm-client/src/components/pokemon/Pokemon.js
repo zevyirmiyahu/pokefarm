@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PokemonImage from "../images/PokemonImage";
-import { getPokemonData } from "../../apis/PokemonAPI";
-import "./styles/pokemon.css";
 import { SPRITE_SIZE } from "../../constants/AppConstants";
+import "./styles/pokemon.css";
 
 const getTypes = (data) => {
   return data?.types?.map((t) => (
@@ -10,41 +9,14 @@ const getTypes = (data) => {
   ));
 };
 
-/**
- * Names are all lowercase, so this function capitalizes first letter
- * @param {string} name
- * @returns
- */
-const formatName = (name) => {
-  console.log(name);
-  const firstLetter = name.substring(0, 1).toUpperCase();
-  return firstLetter + name.substring(1, name.length);
-};
-
-/**
- * Pokemon def:
- * Name(string) - pokemon's name
- * Types(string) - pokemon's type (grass, water, etc.)
- * Working(boolean) - is pokemon currently working
- *
- * @param {number} pokemonId
- * @returns
- */
-const Pokemon = ({ pokemonId }) => {
-  const [data, setData] = useState({isLoading: true});
-
-  useEffect(() => {
-    getPokemonData(pokemonId, setData);
-  }, []);
-
-  return data.isLoading ? (
-    <p>Loading...</p>
-  ) : (
+const Pokemon = ({ pokemonObject }) => {
+  const { id, name, types, isWorking } = pokemonObject;
+  return (
     <div className="container">
-      <p className="header">{formatName(data.name)}</p>
-      {getTypes(data)}
-      <p className="text">Working: No</p>
-      <PokemonImage pokemonId={pokemonId} width={SPRITE_SIZE} />
+      <p className="header">{name}</p>
+      {getTypes(types)}
+      <p className="text">{`Working: ${isWorking}`}</p>
+      <PokemonImage pokemonId={id} width={SPRITE_SIZE} />
     </div>
   );
 };

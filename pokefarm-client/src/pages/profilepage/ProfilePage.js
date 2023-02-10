@@ -1,15 +1,14 @@
 import React from "react";
-import banner from "../../assets/pokemon-page-banner.png";
+// import banner from "../../assets/pokemon-page-banner.png";
+import Banner from "../../components/banners/Banner";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { ROUTES } from "../../constants/AppConstants";
 import PokemonSelector from "../../components/pokemonselector/PokemonSelector";
+import StarterPage from "./StarterPage";
 import "./styles/profilepage.css";
 
 const BASE_STYLE = "profile-page";
-const Banner = () => {
-  return <img className={`${BASE_STYLE}-banner`}src={banner} alt="Pokemon Banner Image" />;
-};
 
 const LogoutButton = () => {
   const navigate = useNavigate();
@@ -30,14 +29,7 @@ const LogoutButton = () => {
   );
 };
 
-const GeneralList = (values) => {
-  const list = values.map((value) => {
-    <li key={value.name}>{value.name}</li>;
-  });
-  return <div>{list}</div>;
-};
-
-const MenuBar = ({ userId, username, pokemonCount, logout }) => {
+const MenuBar = ({ userId, username, pokemonCount }) => {
   return (
     <div>
       <Banner />
@@ -53,22 +45,33 @@ const MenuBar = ({ userId, username, pokemonCount, logout }) => {
   );
 };
 
+const MainProfilePage = ({ userId, username, pokemonCount }) => {
+  return (
+    <div>
+      <MenuBar
+        userId={userId}
+        username={username}
+        pokemonCount={pokemonCount}
+      />
+      <PokemonSelector isStarterSelection={false} />
+    </div>
+  );
+};
+
 const ProfilePage = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   if (!user) {
     return <p>Loading...</p>;
   } else {
     const isStarterSelection = user.pokemons.length === 0;
-    return (
-      <div>
-        <MenuBar
-          userId={user.userId}
-          username={user.username}
-          pokemonCount={user.pokemons.length}
-          logout={logout}
-        />
-        <PokemonSelector isStarterSelection={isStarterSelection} />
-      </div>
+    return isStarterSelection ? (
+      <StarterPage />
+    ) : (
+      <MainProfilePage
+        userId={user.userId}
+        username={user.username}
+        pokemonCount={user.pokemons.length}
+      />
     );
   }
 };

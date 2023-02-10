@@ -3,17 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES, LOGIN } from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import axios from "axios";
-import LoginBanner from "../../components/banners/LoginBanner";
-
-// const InvalidCredentials = () => {
-//   if (isInvalidCredentials) {
-//     return (
-//       <p style={{ color: "red" }}>
-//         Invalid Username OR Password. Please try again.
-//       </p>
-//     );
-//   }
-// };
+import Banner from "../../components/banners/Banner";
 
 /**
  * Takes users credentials and post request backend
@@ -57,7 +47,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <LoginBanner />
+      <Banner />
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label>
