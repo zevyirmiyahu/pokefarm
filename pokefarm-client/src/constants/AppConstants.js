@@ -1,8 +1,8 @@
 const SPRITE_SIZE = 90;
 const POKE_API = "https://pokeapi.co/api/v2/pokemon";
+const BASE_URL = "http://localhost:8080";
 
 const LOGIN = Object.freeze({
-  BASE_URL: "http://localhost:8080",
   SUCCESS: "success",
   FAILURE: "failure",
 });
@@ -24,4 +24,4 @@ const ROUTES = Object.freeze({
   USER_ACCOUNT: "user-account",
 });
 
-export { LOGIN, END_POINTS, SESSION, ROUTES, SPRITE_SIZE, POKE_API };
+export { BASE_URL, LOGIN, END_POINTS, SESSION, ROUTES, SPRITE_SIZE, POKE_API };

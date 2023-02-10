@@ -1,5 +1,4 @@
 import React from "react";
-// import banner from "../../assets/pokemon-page-banner.png";
 import Banner from "../../components/banners/Banner";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";

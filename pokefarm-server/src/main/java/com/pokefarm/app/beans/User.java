@@ -1,35 +1,41 @@
 package com.pokefarm.app.beans;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
 	private int userId = -1;
-	private String userName;
+	private String username;
+	private String password;
 	private String email;
-	private List<Object> pokemons = new ArrayList<>();
+	private List<Pokemon> pokemons;
 	
-	public User(int userId, String userName, String email, List<Object> pokemons) {
-		this.userId = userId;
-		this.userName = userName;
+	public User(@JsonProperty("username") final String username, @JsonProperty("password") final String password, @JsonProperty("email")final String email, @JsonProperty("pokemons")final List<Pokemon> pokemons) {
+		this.username = username;
+		this.password = password;
 		this.email = email;
 		this.pokemons = pokemons;
 	}
 
 	// Setters
-	public void setUserId(int userId) {
+	public void setUserId(final int userId) {
 		this.userId = userId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserName(final String username) {
+		this.username = username;
 	}
 	
-	public void setEmail(String email) {
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+	
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 	
-	public void setPokemons(List<Object> pokemons) {
+	public void setPokemons(final List<Pokemon> pokemons) {
 		this.pokemons = pokemons;
 	}
 	
@@ -40,7 +46,11 @@ public class User {
 
 
 	public String getUserName() {
-		return userName;
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 
 
@@ -49,7 +59,7 @@ public class User {
 	}
 
 
-	public List<Object> getPokemons() {
+	public List<Pokemon> getPokemons() {
 		return pokemons;
 	}
 

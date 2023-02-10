@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import Pokemon from "../pokemon/Pokemon";
 import axios from "axios";
-import { LOGIN, END_POINTS } from "../../constants/AppConstants";
+import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
 import "./styles/pokemonselector.css";
 
@@ -20,7 +20,7 @@ const MessageContent = () => {
 const handleSelectPokemon = (pokemon, user, setUser) => {
   const updatedUser = { ...user, pokemons: [pokemon] };
   axios
-    .post(`${LOGIN.BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedUser)
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedUser)
     .then((response) => {
       //   console.log(response.data);
       setUser(updatedUser);

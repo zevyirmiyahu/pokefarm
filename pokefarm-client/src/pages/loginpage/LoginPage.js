@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ROUTES, LOGIN } from "../../constants/AppConstants";
+import { ROUTES, LOGIN, BASE_URL } from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import axios from "axios";
 import Banner from "../../components/banners/Banner";
@@ -11,7 +11,7 @@ import Banner from "../../components/banners/Banner";
  */
 export const handleLogin = (credentials, navigate, setUser) => {
   axios
-    .post(`${LOGIN.BASE_URL}/Login`, credentials)
+    .post(`${BASE_URL}/Login`, credentials)
     .then((response) => {
       const { loginResponse } = response.data;
       if (loginResponse === LOGIN.SUCCESS) {
