@@ -40,14 +40,12 @@ public class UserController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/create", consumes = {"text/plain", "application/*"})
-	public ResponseEntity<JSONObject> createUser(@RequestBody final JsonNode userjsonNode) {
+	public ResponseEntity<User> createUser(@RequestBody final JsonNode userjsonNode) {
 		final UserService userService = new UserService();
 		
 		try {
-			JSONObject jsonReponse = userService.createUser(userjsonNode);
-			return ResponseEntity
-					.ok()
-					.body(jsonReponse);
+			User user = userService.createUser(userjsonNode);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

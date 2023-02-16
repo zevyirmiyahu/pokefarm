@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-	private int userId = -1;
+	private String userId = "0x";
 	private String username;
 	private String password;
 	private String email;
@@ -19,7 +19,7 @@ public class User {
 	}
 
 	// Setters
-	public void setUserId(final int userId) {
+	public void setUserId(final String userId) {
 		this.userId = userId;
 	}
 
@@ -40,7 +40,7 @@ public class User {
 	}
 	
 	// Getters
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 

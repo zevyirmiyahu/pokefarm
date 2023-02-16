@@ -27,7 +27,7 @@ import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
  */
 public class UserService {
 	
-	public JSONObject createUser(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
+	public User createUser(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
 		User user = convertJsonNodeToUserObject(userJsonNode);
 		String userId = generateUserId();
 		String userName = user.getUserName();
@@ -39,7 +39,9 @@ public class UserService {
 		final boolean isCreationSuccess = saveUser();
 		if (isCreationSuccess) {
 			sendEmailConfirmation(email);
-			return jsonResponse;
+			// Change userId from initial to correct generated Id
+			user.setUserId(userId);
+			return user;
 		} else {
 			// to something for failure
 			return null;
