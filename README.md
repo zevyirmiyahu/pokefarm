@@ -1,11 +1,12 @@
-# PokeFarm 🐔 🐏 🐟 ![Chikorita]("pokefarm-client/src/assets/sprites/sprites/pokemon/versions/generation-v/black-white/animated/152.gif")
+# PokeFarm ![Magikarp](Images/129.gif)
 ## A React + Java full-stack application built using Pokemon!
 
-**About:** A web app where the user can create an account, select a starter pokemon, then send that
-Pokemon to work. The Pokemon will earn money the user can then use to buy more Pokemon, but be careful! 
+### About: ![Charmander](Images/4.gif)
+A web app where the user can create an account, select a starter pokemon, then send that
+Pokemon to work. The Pokemon will earn money the that can be used to buy more Pokemon, but be careful! 
 If the working Pokemon is fired, the player will not get paid. The challenge is to recall the Pokemon before getting fired in a way to optimize earnings.
 
-**Tech Used:**
+### Tech User: ![Ditto](Images/132.gif)
 - React
     - React Router
     - Material UI
@@ -13,5 +14,6 @@ If the working Pokemon is fired, the player will not get paid. The challenge is 
 - Java
     - Spring
 
-![Chikorita]("pokefarm-client/src/assets/sprites/sprites/pokemon/versions/generation-v/black-white/animated/152.gif")
+![Hat-Pikachu](Images/10094.png) ![GigantaMaxGengar](Images/10202.png) ![Mew](Images/151.png)
+<br/>
 **Personal Site:** [Zev Yirmiyahu](https://zevyirmiyahu.com/)
