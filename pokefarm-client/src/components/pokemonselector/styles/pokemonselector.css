@@ -2,6 +2,14 @@
   display: flex;
 }
 
+.pokemon-selector-message-content {
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  min-width: 275px;
+  max-height: 160px;
+}
+
 .pokemon-selector-starter-background-container {
   padding-top: 0.5rem;
   padding-left: 3rem;

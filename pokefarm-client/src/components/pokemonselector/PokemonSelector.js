@@ -5,16 +5,32 @@ import axios from "axios";
 import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
 import Stack from "@mui/material/Stack";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+
 import "./styles/pokemonselector.css";
 
 const BASE_STYLE = "pokemon-selector";
 
-const MessageContent = () => {
+const StarterMessageContent = () => {
   return (
-    <div>
-      <h2>Please Choose a Pokemon.</h2>
-      <p>This will be your very first pokemon! Choose wisely.</p>
-    </div>
+    <Card className={`${BASE_STYLE}-message-content`}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Info
+        </Typography>
+        <Typography variant="h5" component="div">
+          Choose a Pokemon
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Pick wisely!
+        </Typography>
+        <Typography variant="body2">
+          This will be your very first pokemon.
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -39,10 +55,10 @@ const Background = ({ className }) => (
   />
 );
 
-const Content = ({ user, setUser, pokemons }) => {
+const StartContent = ({ user, setUser, pokemons }) => {
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
-      <MessageContent />
+      <StarterMessageContent />
       <div className={`${BASE_STYLE}-starter-background-container`}>
         <Background className={`${BASE_STYLE}-starter-background-image`} />
         <Stack
@@ -92,7 +108,7 @@ const StarterSelection = ({ user, setUser }) => {
   if (isLoading) {
     return <p>Loading...</p>;
   } else {
-    return <Content user={user} setUser={setUser} pokemons={pokemons} />;
+    return <StartContent user={user} setUser={setUser} pokemons={pokemons} />;
   }
 };
 
@@ -100,7 +116,7 @@ const PokemonSelector = ({ isStarterSelection }) => {
   const { user, setUser } = useAuth();
   return isStarterSelection ? (
     <StarterSelection user={user} setUser={setUser} />
-  ) : null; // MainSelection
+  ) : null; // MainSelection when game actually starts once user has a single pokemon
 };
 
 export default PokemonSelector;

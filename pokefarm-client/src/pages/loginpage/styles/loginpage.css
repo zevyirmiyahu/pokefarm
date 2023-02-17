@@ -1,0 +1,15 @@
+.login-page-signin-container {
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+  padding: 18px;
+  border-radius: 6px;
+  margin-top: 5%;
+}
+
+#login-page-button-stack {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}

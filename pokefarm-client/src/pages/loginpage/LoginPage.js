@@ -1,9 +1,16 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ROUTES, LOGIN, BASE_URL } from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import axios from "axios";
 import Banner from "../../components/banners/Banner";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import "./styles/loginpage.css";
+
+const BASE_STYLE = "login-page";
 
 /**
  * Takes users credentials and post request backend
@@ -28,55 +35,105 @@ export const handleLogin = (credentials, navigate, setUser) => {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const { setUser } = useAuth();
+  const userNameRef = useRef("");
+  const passwordRef = useRef("");
 
   const handleSubmit = (e) => {
+    const username = userNameRef.current.value;
+    const password = passwordRef.current.value;
     e.preventDefault();
     handleLogin({ username, password }, navigate, setUser);
   };
 
-  const handleUserChange = (name) => {
-    setUsername(name);
-  };
-
-  const handlePasswordChange = (password) => {
-    setPassword(password);
+  const SignInForm = () => {
+    const navigate = useNavigate();
+    return (
+      <Box
+        className={`${BASE_STYLE}-signin-container`}
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div style={{ marginLeft: "auto" }}>
+          <TextField
+            id="username"
+            label="Username"
+            variant="filled"
+            inputRef={userNameRef}
+          />
+        </div>
+        <div>
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="filled"
+            inputRef={passwordRef}
+          />
+        </div>
+        <Stack
+          id="login-page-button-stack"
+          spacing={2}
+          direction="row"
+          className={`${BASE_STYLE}-button-stack`}
+        >
+          <Button
+            variant="text"
+            onClick={() => {
+              navigate(`/${ROUTES.SIGNUP}`);
+            }}
+          >
+            Sign Up
+          </Button>
+          <Button variant="contained" onClick={(e) => handleSubmit(e)}>
+            Submit
+          </Button>
+        </Stack>
+      </Box>
+    );
   };
 
   return (
     <div>
       <Banner />
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          User Name:
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => handleUserChange(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => handlePasswordChange(e.target.value)}
-          />
-        </label>
-        <br />
-        <input type="submit" value="Submit" />
-      </form>
-      {/* <InvalidCredentials isInvalidCredentials={isInvalidCredentials} /> */}
-      <h3>- or -</h3>
-      <h3>Don't have an account?</h3>
-      <Link to={`/${ROUTES.SIGNUP}`}>Sign up</Link>
+      <SignInForm />
     </div>
+    // <div>
+    //   <Banner />
+    //   <h1>Login</h1>
+    //   <form onSubmit={handleSubmit}>
+    //     <label>
+    //       User Name:
+    //       <input
+    //         type="text"
+    //         id="username"
+    //         value={username}
+    //         onChange={(e) => handleUserChange(e.target.value)}
+    //       />
+    //     </label>
+    //     <br />
+    //     <label>
+    //       Password:
+    //       <input
+    //         type="password"
+    //         id="password"
+    //         value={password}
+    //         onChange={(e) => handlePasswordChange(e.target.value)}
+    //       />
+    //     </label>
+    //     <br />
+    //     <input type="submit" value="Submit" />
+    //   </form>
+    //   {/* <InvalidCredentials isInvalidCredentials={isInvalidCredentials} /> */}
+    //   <h3>- or -</h3>
+    //   <h3>Don't have an account?</h3>
+    //   <Link to={`/${ROUTES.SIGNUP}`}>Sign up</Link>
+    // </div>
   );
 };
 
