@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { BASE_URL, ROUTES } from "../../constants/AppConstants";
 import axios from "axios";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+
+import "./styles/createaccountpage.css";
+
+const BASE_STYLE = "create-account-page";
 
 /**
  * Takes users credentials and post request backend
@@ -13,7 +21,7 @@ const handleCreateUser = (credentials, navigate, setUser) => {
     .post(`${BASE_URL}/create`, credentials)
     .then((response) => {
       // const { loginResponse } = response.data;
-      const {userId, username, email, pokemons} = response.data;
+      const { userId, username, email, pokemons } = response.data;
       console.log(response.data);
       // const { userId, username, pokemons } = response.data;
       setUser({ ...credentials });
@@ -28,86 +36,109 @@ const handleCreateUser = (credentials, navigate, setUser) => {
 const CreateAccountPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const userNameRef = useRef("");
+  const passwordRef = useRef("");
+  const confirmPasswordRef = useRef("");
+  const emailRef = useRef("");
+  const [isError, setIsError] = useState(false);
+
+  const validatePassword = () => {
+    if (passwordRef !== confirmPasswordRef) {
+      setIsError(true);
+    }
+  };
+
+  const CreateAccountForm = () => {
+    return (
+      <Box
+        className={`${BASE_STYLE}-form-container`}
+        component="form"
+        sx={{
+          "& .MuiTextField-root": { m: 1, width: "25ch" },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <div style={{ marginLeft: "auto" }}>
+          <TextField
+            id="username"
+            label="Username"
+            variant="filled"
+            inputRef={userNameRef}
+          />
+        </div>
+        <div>
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            variant="filled"
+            inputRef={passwordRef}
+          />
+        </div>
+        <div>
+          <TextField
+            error={isError}
+            id="confirm-password"
+            label="Confirm Password"
+            type="password"
+            variant="filled"
+            helperText={isError ? "Passwords don't match" : ""}
+            inputRef={confirmPasswordRef}
+            onBlur={(e) => {
+              validatePassword();
+            }}
+          />
+        </div>
+        <div>
+          <TextField
+            id="email"
+            label="Email"
+            type="email"
+            variant="filled"
+            inputRef={emailRef}
+          />
+        </div>
+        <Stack
+          id="create-account-page-button-stack"
+          spacing={2}
+          direction="row"
+        >
+          <Button
+            variant="text"
+            onClick={() => {
+              navigate(`${ROUTES.LOGIN_IN}`);
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              validatePassword();
+              handleCreateUser(
+                {
+                  username: userNameRef,
+                  password: passwordRef,
+                  email: emailRef,
+                  pokemons: [],
+                },
+                navigate,
+                setUser
+              );
+            }}
+          >
+            Submit
+          </Button>
+        </Stack>
+      </Box>
+    );
+  };
 
   return (
     <div>
-      <h1>Create Account</h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleCreateUser(
-            { username, password, email, pokemons: [] },
-            navigate,
-            setUser
-          );
-        }}
-      >
-        <label>User Name:</label>
-        <br />
-        <input
-          type="text"
-          id="username"
-          size="32"
-          maxLength="64"
-          required
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <br />
-
-        <label>Password:</label>
-        <br />
-        <input
-          type="password"
-          id="password"
-          size="32"
-          maxLength="64"
-          required
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <br />
-
-        <label>Confirm Password:</label>
-        <br />
-        <input
-          type="password"
-          id="confirm-password"
-          size="32"
-          maxLength="64"
-          required
-          value={confirmPassword}
-          onChange={(e) => {
-            setConfirmPassword(e.target.value);
-          }}
-        />
-        <br />
-
-        <label>Email:</label>
-        <br />
-        <input
-          type="email"
-          id="email"
-          size="32"
-          maxLength="64"
-          required
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <br />
-
-        <input type="submit" value="Sign Up" />
-      </form>
+      <CreateAccountForm />
     </div>
   );
 };

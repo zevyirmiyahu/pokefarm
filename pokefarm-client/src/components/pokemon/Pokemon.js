@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PokemonImage from "../images/PokemonImage";
 import { SPRITE_SIZE } from "../../constants/AppConstants";
 import Tooltip from "@mui/material/Tooltip";

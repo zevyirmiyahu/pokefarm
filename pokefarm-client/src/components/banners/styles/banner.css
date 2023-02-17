@@ -1,5 +1,10 @@
 .header-banner {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-  }
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 100% !important;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 8px;
+}

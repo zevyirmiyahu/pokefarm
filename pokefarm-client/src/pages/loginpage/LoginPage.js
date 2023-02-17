@@ -47,7 +47,6 @@ const LoginPage = () => {
   };
 
   const SignInForm = () => {
-    const navigate = useNavigate();
     return (
       <Box
         className={`${BASE_STYLE}-signin-container`}
@@ -76,12 +75,7 @@ const LoginPage = () => {
             inputRef={passwordRef}
           />
         </div>
-        <Stack
-          id="login-page-button-stack"
-          spacing={2}
-          direction="row"
-          className={`${BASE_STYLE}-button-stack`}
-        >
+        <Stack id="login-page-button-stack" spacing={2} direction="row">
           <Button
             variant="text"
             onClick={() => {

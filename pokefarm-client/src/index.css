@@ -10,8 +10,7 @@ body {
 html {
   background: url("./assets/app-background.jpeg");
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
 code {
