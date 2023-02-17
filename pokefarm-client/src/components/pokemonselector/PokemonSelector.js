@@ -4,6 +4,7 @@ import Pokemon from "../pokemon/Pokemon";
 import axios from "axios";
 import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
+import Stack from "@mui/material/Stack";
 import "./styles/pokemonselector.css";
 
 const BASE_STYLE = "pokemon-selector";
@@ -30,29 +31,38 @@ const handleSelectPokemon = (pokemon, user, setUser) => {
     });
 };
 
+const Background = ({ className }) => (
+  <img
+    className={className}
+    src={require("../../assets/selection-background.png")}
+    width={1000}
+  />
+);
+
 const Content = ({ user, setUser, pokemons }) => {
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <MessageContent />
-      <div className={`${BASE_STYLE}-starter-inner-container`}>
-        <div
-          className={`${BASE_STYLE}-button`}
-          onClick={() => handleSelectPokemon(pokemons[0], user, setUser)}
+      <div className={`${BASE_STYLE}-starter-background-container`}>
+        <Background className={`${BASE_STYLE}-starter-background-image`} />
+        <Stack
+          spacing={2}
+          direction="row"
+          className={`${BASE_STYLE}-starter-stack`}
         >
-          <Pokemon pokemonObject={pokemons[0]} />
-        </div>
-        <div
-          className={`${BASE_STYLE}-button`}
-          onClick={() => handleSelectPokemon(pokemons[1], user, setUser)}
-        >
-          <Pokemon pokemonObject={pokemons[1]} />
-        </div>
-        <div
-          className={`${BASE_STYLE}-button`}
-          onClick={() => handleSelectPokemon(pokemons[2], user, setUser)}
-        >
-          <Pokemon pokemonObject={pokemons[2]} />
-        </div>
+          <Pokemon
+            pokemonObject={pokemons[0]}
+            onClick={() => handleSelectPokemon(pokemons[0], user, setUser)}
+          />
+          <Pokemon
+            pokemonObject={pokemons[1]}
+            onClick={() => handleSelectPokemon(pokemons[1], user, setUser)}
+          />
+          <Pokemon
+            pokemonObject={pokemons[2]}
+            onClick={() => handleSelectPokemon(pokemons[2], user, setUser)}
+          />
+        </Stack>
       </div>
     </div>
   );
@@ -80,7 +90,7 @@ const StarterSelection = ({ user, setUser }) => {
   }, []);
 
   if (isLoading) {
-    return <p>Loading..</p>;
+    return <p>Loading...</p>;
   } else {
     return <Content user={user} setUser={setUser} pokemons={pokemons} />;
   }
@@ -90,7 +100,7 @@ const PokemonSelector = ({ isStarterSelection }) => {
   const { user, setUser } = useAuth();
   return isStarterSelection ? (
     <StarterSelection user={user} setUser={setUser} />
-  ) : null;
+  ) : null; // MainSelection
 };
 
 export default PokemonSelector;

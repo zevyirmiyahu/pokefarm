@@ -1,9 +1,28 @@
 .pokemon-selector-starter-container {
   display: flex;
-  background-color: lightblue;
-  border-style: solid;
-  border-color: aqua;
-  border-width: 3px;
+}
+
+.pokemon-selector-starter-background-container {
+  padding-top: 0.5rem;
+  padding-left: 3rem;
+  padding-right: 1rem;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.pokemon-selector-starter-background-image {
+  position: relative;
+  top: 0;
+  left: 0;
+  border-width: 15px;
+  border-style: double;
+}
+
+.pokemon-selector-starter-stack {
+  position: absolute;
+  top: 55%;
+  left: 30%;
 }
 
 .pokemon-selector-starter-inner-container {

@@ -1,59 +1,63 @@
 import React from "react";
-import Banner from "../../components/banners/Banner";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { ROUTES } from "../../constants/AppConstants";
 import PokemonSelector from "../../components/pokemonselector/PokemonSelector";
-import StarterPage from "./StarterPage";
+
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
+
 import "./styles/profilepage.css";
 
-const BASE_STYLE = "profile-page";
+const handleLogout = (navigate, setUser) => {
+  setUser(null);
+  navigate(ROUTES.LOGIN_IN);
+};
 
-const LogoutButton = () => {
+const MenuBar = ({ userId, username, pokemonCount }) => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
   return (
-    <form>
-      <button
-        className={`${BASE_STYLE}-logout`}
-        onClick={() => {
-          setUser(null);
-          navigate(ROUTES.LOGIN_IN);
-        }}
-      >
-        Logout
-      </button>
-    </form>
-  );
-};
-
-const MenuBar = ({ userId, username, pokemonCount }) => {
-  return (
-    <div>
-      <Banner />
-      <div className={`${BASE_STYLE}-menubar`}>
-        <p className={`${BASE_STYLE}-text`}>Account ID: {userId}</p>
-        <p className={`${BASE_STYLE}-text`}>Farmer: {username}</p>
-        <p className={`${BASE_STYLE}-text`}>Pokemon: {pokemonCount}</p>
-        <div className={`${BASE_STYLE}-logout-container`}>
-          <LogoutButton />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const MainProfilePage = ({ userId, username, pokemonCount }) => {
-  return (
-    <div>
-      <MenuBar
-        userId={userId}
-        username={username}
-        pokemonCount={pokemonCount}
-      />
-      <PokemonSelector isStarterSelection={false} />
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" color="secondary">
+        <Toolbar>
+          <IconButton
+            size="small"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <Avatar src="" />
+          </IconButton>
+          <Stack spacing={5} direction="row">
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Account ID: {userId}
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Farmer: {username}
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Pokemon: {pokemonCount}
+            </Typography>
+          </Stack>
+          <Button
+            id="profile-page-logout-button"
+            onClick={() => handleLogout(navigate, setUser)}
+            color="inherit"
+          >
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 
@@ -62,15 +66,15 @@ const ProfilePage = () => {
   if (!user) {
     return <p>Loading...</p>;
   } else {
-    const isStarterSelection = user.pokemons.length === 0;
-    return isStarterSelection ? (
-      <StarterPage />
-    ) : (
-      <MainProfilePage
-        userId={user.userId}
-        username={user.username}
-        pokemonCount={user.pokemons.length}
-      />
+    return (
+      <div>
+        <MenuBar
+          userId={user.userId}
+          username={user.username}
+          pokemonCount={user.pokemons.length}
+        />
+        <PokemonSelector isStarterSelection={user.pokemons.length === 0} />
+      </div>
     );
   }
 };
