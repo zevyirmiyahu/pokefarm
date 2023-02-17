@@ -1,4 +1,4 @@
-# PokeFarm 🐔 🐏 🐟
+# PokeFarm 🐔 🐏 🐟 ![Chikorita]("pokefarm-client/src/assets/sprites/sprites/pokemon/versions/generation-v/black-white/animated/152.gif")
 ## A React + Java full-stack application built using Pokemon!
 
 **About:** A web app where the user can create an account, select a starter pokemon, then send that
@@ -13,5 +13,5 @@ If the working Pokemon is fired, the player will not get paid. The challenge is 
 - Java
     - Spring
 
-
+![Chikorita]("pokefarm-client/src/assets/sprites/sprites/pokemon/versions/generation-v/black-white/animated/152.gif")
 **Personal Site:** [Zev Yirmiyahu](https://zevyirmiyahu.com/)
