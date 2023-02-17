@@ -1,5 +1,5 @@
 import React from "react";
-import banner from "../../assets/pokemon-page-banner.png";
+import Logo from "../../assets/pokefarm-logo.png";
 import "./styles/banner.css";
 
 const BASE_STYLE = "header";
@@ -8,8 +8,8 @@ const Banner = () => {
   return (
     <img
       className={`${BASE_STYLE}-banner`}
-      src={banner}
-      alt="Pokemon Banner Image"
+      src={Logo}
+      alt="PokeFarm Logo Image"
     />
   );
 };

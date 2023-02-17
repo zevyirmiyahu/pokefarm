@@ -6,10 +6,10 @@ import Zoom from "@mui/material/Zoom";
 import Button from "@mui/material/Button";
 import "./styles/pokemon.css";
 
-const getToolTipTitle = (id, name, data, isWorking) => {
-  if (data.length === 2) {
-    const type1 = data[0].type.name;
-    const type2 = data[1].type.name;
+const getToolTipTitle = (id, name, types, isWorking) => {
+  if (types.length === 2) {
+    const type1 = types[0];
+    const type2 = types[1];
     return (
       <div>
         <p>{`ID: ${id}`}</p>
@@ -19,7 +19,7 @@ const getToolTipTitle = (id, name, data, isWorking) => {
       </div>
     );
   }
-  const type1 = data[0].type.name;
+  const type1 = types[0];
 
   return (
     <div>

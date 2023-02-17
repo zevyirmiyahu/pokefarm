@@ -35,12 +35,13 @@ const StarterMessageContent = () => {
 };
 
 const handleSelectPokemon = (pokemon, user, setUser) => {
-  const updatedUser = { ...user, pokemons: [pokemon] };
+  const userId = user.userId;
+  const updatedPokemon = { userId, pokemons: [pokemon] };
   axios
-    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedUser)
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
       //   console.log(response.data);
-      setUser(updatedUser);
+      setUser({ ...user, pokemons: [pokemon] }); // will change this once DB exists
     })
     .catch((error) => {
       console.log(error);

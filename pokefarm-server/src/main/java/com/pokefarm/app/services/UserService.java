@@ -48,8 +48,10 @@ public class UserService {
 		}
 	}
 	
-	public void updateUser() {
+	public User updateUser(final JsonNode userField) {
+		System.out.println(userField);
 		// update in database
+		return null;
 	}
 
 	// Sends user email upon successful user creation.

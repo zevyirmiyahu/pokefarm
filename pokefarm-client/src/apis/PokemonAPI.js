@@ -1,6 +1,7 @@
 import axios from "axios";
 import PokemonObject from "../components/pokemon/PokemonObject";
 import { POKE_API } from "../constants/AppConstants";
+import { typeFormatter } from "../utils/Utils";
 
 /**
  * Gets single pokmon data and creates pokemonObject to be set in state using setPokemon
@@ -31,7 +32,8 @@ export const getMultiPokemonData = async (pokemonIds, setPokemons) => {
       let results = [];
       responses.forEach((response) => {
         const { id, name, types } = response.data;
-        const pokemon = new PokemonObject(id, name, types, false);
+        const formattedTypes = typeFormatter(types);
+        const pokemon = new PokemonObject(id, name, formattedTypes, false);
         results.push(pokemon);
       });
       setPokemons(results);
