@@ -33,6 +33,10 @@ const handleCreateUser = (credentials, navigate, setUser) => {
     });
 };
 
+const createUserCredentials = (credentials, key, value) => {
+  return { ...credentials, [key]: value };
+};
+
 const CreateAccountPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
@@ -40,11 +44,16 @@ const CreateAccountPage = () => {
   const passwordRef = useRef("");
   const confirmPasswordRef = useRef("");
   const emailRef = useRef("");
+
+  // holds user state data
+  const [credentials, setCredentials] = useState({});
   const [isError, setIsError] = useState(false);
 
   const validatePassword = () => {
-    if (passwordRef !== confirmPasswordRef) {
+    if (passwordRef.current.value !== confirmPasswordRef.current.value) {
       setIsError(true);
+    } else if (!isError) {
+      setIsError(false);
     }
   };
 
@@ -65,6 +74,9 @@ const CreateAccountPage = () => {
             label="Username"
             variant="filled"
             inputRef={userNameRef}
+            onBlur={(e) => {
+              createUserCredentials();
+            }}
           />
         </div>
         <div>

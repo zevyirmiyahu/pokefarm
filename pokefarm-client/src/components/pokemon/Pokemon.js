@@ -31,7 +31,7 @@ const getToolTipTitle = (id, name, types, isWorking) => {
   );
 };
 
-const Pokemon = ({ className, pokemonObject, onClick }) => {
+const Pokemon = ({ className, pokemonObject, onClick, isAnimated = true }) => {
   const { id, name, types, isWorking } = pokemonObject;
 
   return (
@@ -44,7 +44,11 @@ const Pokemon = ({ className, pokemonObject, onClick }) => {
     >
       <div>
         <Button variant="text" onClick={onClick}>
-          <PokemonImage pokemonId={id} width={SPRITE_SIZE} />
+          <PokemonImage
+            pokemonId={id}
+            width={SPRITE_SIZE}
+            isAnimated={isAnimated}
+          />
         </Button>
       </div>
     </Tooltip>

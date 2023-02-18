@@ -34,6 +34,33 @@ const StarterMessageContent = () => {
   );
 };
 
+const MainToolContent = ({ user, setUser }) => {
+  return (
+    <Card className={`${BASE_STYLE}-main-tool-container`}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Pokemon Working
+        </Typography>
+        <Typography sx={{ mb: 1.5 }}>Click Pokemon to return home.</Typography>
+        <Stack spacing={2} direction="row">
+          {user.pokemons
+            .filter((pokemon) => pokemon.isWorking)
+            .map((pokemon) => {
+              return (
+                <Pokemon
+                  key={pokemon.name}
+                  pokemonObject={pokemon}
+                  isAnimated={false}
+                  onClick={() => handleWorkStatus(pokemon, user, setUser)}
+                />
+              );
+            })}
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
+
 const handleSelectPokemon = (pokemon, user, setUser) => {
   const userId = user.userId;
   const updatedPokemon = { userId, pokemons: [pokemon] };
@@ -48,11 +75,24 @@ const handleSelectPokemon = (pokemon, user, setUser) => {
     });
 };
 
+const handleWorkStatus = (pokemon, user, setUser) => {
+  const updatedPokemon = { ...pokemon, isWorking: !pokemon.isWorking };
+  axios
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
+    .then((response) => {
+      //   console.log(response.data);
+      setUser({ ...user, pokemons: [updatedPokemon] }); // will change this once DB exists
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 const Background = ({ className }) => (
   <img
     className={className}
     src={require("../../assets/selection-background.png")}
-    width={1000}
+    width={900}
   />
 );
 
@@ -85,6 +125,34 @@ const StartContent = ({ user, setUser, pokemons }) => {
   );
 };
 
+const MainContent = ({ user, setUser }) => {
+  return (
+    <div className={`${BASE_STYLE}-starter-container`}>
+      <div className={`${BASE_STYLE}-starter-background-container`}>
+        <Background className={`${BASE_STYLE}-starter-background-image`} />
+        <Stack
+          spacing={2}
+          direction="row"
+          className={`${BASE_STYLE}-starter-stack`}
+        >
+          {user.pokemons
+            .filter((pokemon) => !pokemon.isWorking)
+            .map((pokemon) => {
+              return (
+                <Pokemon
+                  key={pokemon.name}
+                  pokemonObject={pokemon}
+                  onClick={() => handleWorkStatus(pokemon, user, setUser)}
+                />
+              );
+            })}
+        </Stack>
+      </div>
+      <MainToolContent user={user} setUser={setUser} />
+    </div>
+  );
+};
+
 /**
  * Happens ONLY when user first create account
  * @returns JSX
@@ -113,11 +181,21 @@ const StarterSelection = ({ user, setUser }) => {
   }
 };
 
+const MainSelection = ({ user, setUser }) => {
+  return (
+    <div>
+      <MainContent user={user} setUser={setUser} />
+    </div>
+  );
+};
+
 const PokemonSelector = ({ isStarterSelection }) => {
   const { user, setUser } = useAuth();
   return isStarterSelection ? (
     <StarterSelection user={user} setUser={setUser} />
-  ) : null; // MainSelection when game actually starts once user has a single pokemon
+  ) : (
+    <MainSelection user={user} setUser={setUser} />
+  ); // MainSelection when game actually starts once user has a single pokemon
 };
 
 export default PokemonSelector;
