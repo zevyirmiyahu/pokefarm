@@ -26,7 +26,7 @@ const MenuBar = ({ userId, username, pokemonCount }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" sx={{ backgroundColor: "#e4000f" }}>
         <Toolbar>
           <IconButton
             size="small"
@@ -46,6 +46,9 @@ const MenuBar = ({ userId, username, pokemonCount }) => {
             </Typography>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Pokemon: {pokemonCount}
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Money: 0 ₱
             </Typography>
           </Stack>
           <Button
