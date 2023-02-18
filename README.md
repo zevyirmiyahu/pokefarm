@@ -17,3 +17,7 @@ If the working Pokemon is fired, the player will not get paid. The challenge is 
 ![Hat-Pikachu](Images/10094.png) ![GigantaMaxGengar](Images/10202.png) ![Mew](Images/151.png)
 <br/>
 **Personal Site:** [Zev Yirmiyahu](https://zevyirmiyahu.com/)
+
+
+### Credit:
+The grassy field background image was created by [WillDinoMaster55](https://www.deviantart.com/willdinomaster55/art/Grass-with-River-Background-907641083)
