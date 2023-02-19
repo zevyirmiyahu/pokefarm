@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import Pokemon from "../pokemon/Pokemon";
 import axios from "axios";
@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import { Timer } from "easytimer.js";
 
 import "./styles/pokemonselector.css";
 
@@ -34,7 +35,27 @@ const StarterMessageContent = () => {
   );
 };
 
+/**
+ * Payment system for working Pokemon
+ * @param {number} pokemonId 
+ * @param {Map} payData 
+ * @param {function} setPayData 
+ * @returns function to clear time id
+ */
+const earningMoney = (pokemonId, payData, setPayData) => {
+  const currentPay =
+    payData.get(pokemonId) === undefined ? 0 : payData.get(pokemonId);
+  if (currentPay < 10000) {
+    const timeId = setTimeout(() => {
+      setPayData(new Map(payData.set(pokemonId, currentPay + 1)));
+    }, 1000);
+    return () => clearTimeout(timeId);
+  }
+};
+
 const MainToolContent = ({ user, setUser }) => {
+  const [payData, setPayData] = useState(new Map()); // key: pokemonId, value: pay
+
   return (
     <Card className={`${BASE_STYLE}-main-tool-container`}>
       <CardContent>
@@ -46,13 +67,22 @@ const MainToolContent = ({ user, setUser }) => {
           {user.pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
+              earningMoney(pokemon.id, payData, setPayData);
               return (
-                <Pokemon
-                  key={pokemon.name}
-                  pokemonObject={pokemon}
-                  isAnimated={false}
-                  onClick={() => handleWorkStatus(pokemon, user, setUser)}
-                />
+                <div key={pokemon.name}>
+                  <Pokemon
+                    pokemonObject={pokemon}
+                    isAnimated={false}
+                    onClick={() => {
+                      handleWorkStatus(pokemon, user, setUser);
+                      payData.delete(pokemon.id); // remove value
+                      setPayData(new Map(payData)); // reset pay
+                    }}
+                  />
+                  <p className={`${BASE_STYLE}-main-tool-payment`}>
+                    Payment: {payData.get(pokemon.id)} ₱
+                  </p>
+                </div>
               );
             })}
         </Stack>
@@ -189,8 +219,16 @@ const MainSelection = ({ user, setUser }) => {
   );
 };
 
+const Money = (setCounter) => {
+  const timer = new Timer();
+  timer.start({ precision: "seconds" });
+  const time = timer.getTotalTimeValues().seconds;
+  setCounter(time);
+};
+
 const PokemonSelector = ({ isStarterSelection }) => {
   const { user, setUser } = useAuth();
+
   return isStarterSelection ? (
     <StarterSelection user={user} setUser={setUser} />
   ) : (
