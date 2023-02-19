@@ -1,5 +1,5 @@
 import axios from "axios";
-import PokemonObject from "../components/pokemon/PokemonObject";
+import PokemonObject from "../objects/PokemonObject";
 import { POKE_API } from "../constants/AppConstants";
 import { typeFormatter } from "../utils/Utils";
 

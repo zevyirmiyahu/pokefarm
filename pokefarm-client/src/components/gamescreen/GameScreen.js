@@ -194,6 +194,8 @@ const GameScreen = ({ isStarterSelection }) => {
       ).finally(() => {
         setIsLoading(false);
       });
+    } else {
+      setIsLoading(false);
     }
   }, []);
 

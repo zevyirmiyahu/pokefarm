@@ -9,9 +9,16 @@ export const NOOP = () => {};
 export const typeFormatter = (types) => {
   return types.map((el) => {
     const typeValue = el.type.name;
-    return (
-      typeValue.substring(0, 1).toUpperCase() +
-      typeValue.substring(1, typeValue.length)
-    );
+    return formatName(typeValue);
   });
+};
+
+/**
+ * Names are all lowercase, so this function capitalizes first letter
+ * @param {string} name
+ * @returns
+ */
+export const formatName = (name) => {
+  const firstLetter = name.substring(0, 1).toUpperCase();
+  return firstLetter + name.substring(1, name.length);
 };
