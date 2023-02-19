@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import UserObject from "../../objects/UserObject";
 import "./styles/loginpage.css";
 
 const BASE_STYLE = "login-page";
@@ -23,7 +24,7 @@ export const handleLogin = (credentials, navigate, setUser) => {
       const { loginResponse } = response.data;
       if (loginResponse === LOGIN.SUCCESS) {
         const { userId, username, pokemons } = response.data;
-        setUser({ userId: userId, username: username, pokemons: pokemons });
+        setUser(new UserObject(userId, username, 0, pokemons));
         navigate(ROUTES.USER_ACCOUNT);
       }
       return loginResponse; // Login Failure
@@ -93,41 +94,10 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <>
       <Banner />
       <SignInForm />
-    </div>
-    // <div>
-    //   <Banner />
-    //   <h1>Login</h1>
-    //   <form onSubmit={handleSubmit}>
-    //     <label>
-    //       User Name:
-    //       <input
-    //         type="text"
-    //         id="username"
-    //         value={username}
-    //         onChange={(e) => handleUserChange(e.target.value)}
-    //       />
-    //     </label>
-    //     <br />
-    //     <label>
-    //       Password:
-    //       <input
-    //         type="password"
-    //         id="password"
-    //         value={password}
-    //         onChange={(e) => handlePasswordChange(e.target.value)}
-    //       />
-    //     </label>
-    //     <br />
-    //     <input type="submit" value="Submit" />
-    //   </form>
-    //   {/* <InvalidCredentials isInvalidCredentials={isInvalidCredentials} /> */}
-    //   <h3>- or -</h3>
-    //   <h3>Don't have an account?</h3>
-    //   <Link to={`/${ROUTES.SIGNUP}`}>Sign up</Link>
-    // </div>
+    </>
   );
 };
 

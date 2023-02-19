@@ -173,7 +173,7 @@ const MainContent = ({ user, setUser }) => {
 /**
  * Renders the screens for the game
  * @component
- * @param {*} param0
+ * @param {boolean} isStarterSelection - determines if user is new
  * @returns
  */
 const GameScreen = ({ isStarterSelection }) => {
