@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import Pokemon from "../pokemon/Pokemon";
 import axios from "axios";
@@ -8,19 +8,48 @@ import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Timer } from "easytimer.js";
+import PropTypes from "prop-types";
+import GameBackground from "./GameBackground";
+import { earningMoney } from "./utils/Utils";
 
 import "./styles/pokemonselector.css";
 
 const BASE_STYLE = "pokemon-selector";
 
+const handleSelectPokemon = (pokemon, user, setUser) => {
+  const userId = user.userId;
+  const updatedPokemon = { userId, pokemons: [pokemon] };
+  axios
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
+    .then((response) => {
+      setUser({ ...user, pokemons: [pokemon] }); // will change this once DB exists
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const handleWorkStatus = (pokemon, user, setUser) => {
+  const updatedPokemon = { ...pokemon, isWorking: !pokemon.isWorking };
+  axios
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
+    .then((response) => {
+      setUser({ ...user, pokemons: [updatedPokemon] }); // will change this once DB exists
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+/**
+ * Message of instruction for new users selecting a starter pokemon
+ * @component
+ * @returns
+ */
 const StarterMessageContent = () => {
   return (
     <Card className={`${BASE_STYLE}-message-content`}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Info
-        </Typography>
         <Typography variant="h5" component="div">
           Choose a Pokemon
         </Typography>
@@ -35,26 +64,8 @@ const StarterMessageContent = () => {
   );
 };
 
-/**
- * Payment system for working Pokemon
- * @param {number} pokemonId 
- * @param {Map} payData 
- * @param {function} setPayData 
- * @returns function to clear time id
- */
-const earningMoney = (pokemonId, payData, setPayData) => {
-  const currentPay =
-    payData.get(pokemonId) === undefined ? 0 : payData.get(pokemonId);
-  if (currentPay < 10000) {
-    const timeId = setTimeout(() => {
-      setPayData(new Map(payData.set(pokemonId, currentPay + 1)));
-    }, 1000);
-    return () => clearTimeout(timeId);
-  }
-};
-
 const MainToolContent = ({ user, setUser }) => {
-  const [payData, setPayData] = useState(new Map()); // key: pokemonId, value: pay
+  const [payData, setPayData] = useState(new Map()); // key: uniqueId, value: payEarned
 
   return (
     <Card className={`${BASE_STYLE}-main-tool-container`}>
@@ -91,47 +102,18 @@ const MainToolContent = ({ user, setUser }) => {
   );
 };
 
-const handleSelectPokemon = (pokemon, user, setUser) => {
-  const userId = user.userId;
-  const updatedPokemon = { userId, pokemons: [pokemon] };
-  axios
-    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
-    .then((response) => {
-      //   console.log(response.data);
-      setUser({ ...user, pokemons: [pokemon] }); // will change this once DB exists
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-const handleWorkStatus = (pokemon, user, setUser) => {
-  const updatedPokemon = { ...pokemon, isWorking: !pokemon.isWorking };
-  axios
-    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
-    .then((response) => {
-      //   console.log(response.data);
-      setUser({ ...user, pokemons: [updatedPokemon] }); // will change this once DB exists
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-const Background = ({ className }) => (
-  <img
-    className={className}
-    src={require("../../assets/selection-background.png")}
-    width={900}
-  />
-);
-
+/**
+ * @component
+ * Starter content portion of the game.
+ * Renders ONLY when user first creates account
+ * @returns JSX
+ */
 const StartContent = ({ user, setUser, pokemons }) => {
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <StarterMessageContent />
       <div className={`${BASE_STYLE}-starter-background-container`}>
-        <Background className={`${BASE_STYLE}-starter-background-image`} />
+        <GameBackground className={`${BASE_STYLE}-starter-background-image`} />
         <Stack
           spacing={2}
           direction="row"
@@ -155,11 +137,16 @@ const StartContent = ({ user, setUser, pokemons }) => {
   );
 };
 
+/**
+ * @component
+ * Content during main play
+ * @returns JSX
+ */
 const MainContent = ({ user, setUser }) => {
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <div className={`${BASE_STYLE}-starter-background-container`}>
-        <Background className={`${BASE_STYLE}-starter-background-image`} />
+        <GameBackground className={`${BASE_STYLE}-starter-background-image`} />
         <Stack
           spacing={2}
           direction="row"
@@ -184,56 +171,71 @@ const MainContent = ({ user, setUser }) => {
 };
 
 /**
- * Happens ONLY when user first create account
- * @returns JSX
+ * Renders the screens for the game
+ * @component
+ * @param {*} param0
+ * @returns
  */
-const StarterSelection = ({ user, setUser }) => {
+const GameScreen = ({ isStarterSelection }) => {
+  const { user, setUser } = useAuth();
   const [pokemons, setPokemons] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
+  // Starter Pokemon
   const chikoritaId = 152;
   const totadileId = 158;
   const cyndaquilId = 155;
 
   useEffect(() => {
-    getMultiPokemonData(
-      [chikoritaId, totadileId, cyndaquilId],
-      setPokemons
-    ).finally(() => {
-      setIsLoading(false);
-    });
+    if (isStarterSelection) {
+      getMultiPokemonData(
+        [chikoritaId, totadileId, cyndaquilId],
+        setPokemons
+      ).finally(() => {
+        setIsLoading(false);
+      });
+    }
   }, []);
 
   if (isLoading) {
     return <p>Loading...</p>;
-  } else {
+  }
+
+  if (isStarterSelection) {
     return <StartContent user={user} setUser={setUser} pokemons={pokemons} />;
+  } else {
+    return <MainContent user={user} setUser={setUser} />;
   }
 };
 
-const MainSelection = ({ user, setUser }) => {
-  return (
-    <div>
-      <MainContent user={user} setUser={setUser} />
-    </div>
-  );
+StartContent.propTypes = {
+  /**
+   * User object held in state
+   */
+  user: PropTypes.object.isRequired,
+  /**
+   * Setter function for user state
+   */
+  setUser: PropTypes.func.isRequired,
 };
 
-const Money = (setCounter) => {
-  const timer = new Timer();
-  timer.start({ precision: "seconds" });
-  const time = timer.getTotalTimeValues().seconds;
-  setCounter(time);
+MainContent.propTypes = {
+  /**
+   * User object held in state
+   */
+  user: PropTypes.object.isRequired,
+  /**
+   * Setter function for user state
+   */
+  setUser: PropTypes.func.isRequired,
 };
 
-const PokemonSelector = ({ isStarterSelection }) => {
-  const { user, setUser } = useAuth();
-
-  return isStarterSelection ? (
-    <StarterSelection user={user} setUser={setUser} />
-  ) : (
-    <MainSelection user={user} setUser={setUser} />
-  ); // MainSelection when game actually starts once user has a single pokemon
+GameScreen.propTypes = {
+  /**
+   * Determines if user is a newly created user and needs to select
+   * his/her first starter Pokemon
+   */
+  isStarterSelection: PropTypes.bool.isRequired,
 };
 
-export default PokemonSelector;
+export default GameScreen;

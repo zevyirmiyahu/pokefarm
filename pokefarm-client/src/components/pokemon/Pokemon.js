@@ -1,5 +1,5 @@
 import React from "react";
-import PokemonImage from "../images/PokemonImage";
+import PokemonImage from "./PokemonImage";
 import { SPRITE_SIZE } from "../../constants/AppConstants";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
