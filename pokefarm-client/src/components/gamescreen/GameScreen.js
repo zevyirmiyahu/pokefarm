@@ -10,19 +10,20 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import GameBackground from "./GameBackground";
-import { earningMoney } from "./utils/Utils";
+import { earningMoney, addPokemon } from "./utils/Utils";
 
 import "./styles/pokemonselector.css";
 
 const BASE_STYLE = "pokemon-selector";
 
+// For choosing a pokemon to add to your farm.
 const handleSelectPokemon = (pokemon, user, setUser) => {
   const userId = user.userId;
   const updatedPokemon = { userId, pokemons: [pokemon] };
   axios
     .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
-      setUser({ ...user, pokemons: [pokemon] }); // will change this once DB exists
+      setUser({ ...user, pokemons: addPokemon(pokemon, user.pokemons) }); // will change this once DB exists
     })
     .catch((error) => {
       console.error(error);
@@ -37,7 +38,7 @@ const handleWorkStatus = (money, pokemon, user, setUser) => {
       setUser({
         ...user,
         money: user.money + money,
-        pokemons: [updatedPokemon],
+        pokemons: addPokemon(updatedPokemon, user.pokemons),
       }); // will change this once DB exists
     })
     .catch((error) => {
