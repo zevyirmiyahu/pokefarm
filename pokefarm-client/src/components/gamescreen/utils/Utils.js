@@ -7,12 +7,14 @@
  * @param {function} setPayData
  * @returns Callback to clear specific time id
  */
-const earningMoney = (pokemonId, payData, setPayData) => {
+const earningMoney = (pokemonUniqueId, payData, setPayData) => {
   const payEarned =
-    payData.get(pokemonId) === undefined ? 0 : payData.get(pokemonId);
+    payData.get(pokemonUniqueId) === undefined
+      ? 0
+      : payData.get(pokemonUniqueId);
   if (payEarned < 10000) {
     const timeId = setTimeout(() => {
-      setPayData(new Map(payData.set(pokemonId, payEarned + 1)));
+      setPayData(new Map(payData.set(pokemonUniqueId, payEarned + 1)));
     }, 1000);
     return () => clearTimeout(timeId);
   }

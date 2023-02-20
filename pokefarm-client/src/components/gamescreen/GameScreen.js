@@ -29,12 +29,16 @@ const handleSelectPokemon = (pokemon, user, setUser) => {
     });
 };
 
-const handleWorkStatus = (pokemon, user, setUser) => {
+const handleWorkStatus = (money, pokemon, user, setUser) => {
   const updatedPokemon = { ...pokemon, isWorking: !pokemon.isWorking };
   axios
     .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
-      setUser({ ...user, pokemons: [updatedPokemon] }); // will change this once DB exists
+      setUser({
+        ...user,
+        money: user.money + money,
+        pokemons: [updatedPokemon],
+      }); // will change this once DB exists
     })
     .catch((error) => {
       console.error(error);
@@ -78,20 +82,21 @@ const MainToolContent = ({ user, setUser }) => {
           {user.pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
-              earningMoney(pokemon.id, payData, setPayData);
+              earningMoney(pokemon.uniqueId, payData, setPayData);
               return (
-                <div key={pokemon.name}>
+                <div key={pokemon.uniqueId}>
                   <Pokemon
                     pokemonObject={pokemon}
                     isAnimated={false}
                     onClick={() => {
-                      handleWorkStatus(pokemon, user, setUser);
-                      payData.delete(pokemon.id); // remove value
+                      const money = payData.get(pokemon.uniqueId);
+                      handleWorkStatus(money, pokemon, user, setUser);
+                      payData.delete(pokemon.uniqueId); // remove value
                       setPayData(new Map(payData)); // reset pay
                     }}
                   />
                   <p className={`${BASE_STYLE}-main-tool-payment`}>
-                    Payment: {payData.get(pokemon.id)} ₱
+                    Payment: {payData.get(pokemon.uniqueId)} ₱
                   </p>
                 </div>
               );
@@ -157,9 +162,9 @@ const MainContent = ({ user, setUser }) => {
             .map((pokemon) => {
               return (
                 <Pokemon
-                  key={pokemon.name}
+                  key={pokemon.uniqueId}
                   pokemonObject={pokemon}
-                  onClick={() => handleWorkStatus(pokemon, user, setUser)}
+                  onClick={() => handleWorkStatus(0, pokemon, user, setUser)}
                 />
               );
             })}

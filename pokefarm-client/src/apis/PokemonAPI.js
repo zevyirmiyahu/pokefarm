@@ -13,7 +13,8 @@ export const getPokemonData = async (pokemonId, setPokemon) => {
     .get(`${POKE_API}/${pokemonId}`)
     .then((response) => {
       const { name, types } = response.data;
-      const pokemon = new PokemonObject(pokemonId, name, types, false);
+      const formattedTypes = typeFormatter(types);
+      const pokemon = new PokemonObject(pokemonId, name, formattedTypes, false);
       setPokemon(pokemon);
     })
     .catch((error) => console.log(error));

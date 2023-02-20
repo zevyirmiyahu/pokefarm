@@ -21,9 +21,10 @@ const handleLogout = (navigate, setUser) => {
 const MenuBar = () => {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
-  const userId = user.id;
-  const username = user.name;
+  const userId = user.userId;
+  const username = user.username;
   const pokemonCount = user.pokemons.length;
+  const money = user.money;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -49,7 +50,7 @@ const MenuBar = () => {
               Pokemon: {pokemonCount}
             </Typography>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Money: 0 ₱
+              Money: {money} ₱
             </Typography>
           </Stack>
           <Button
