@@ -20,20 +20,4 @@ const earningMoney = (pokemonUniqueId, payData, setPayData) => {
   }
 };
 
-/**
- * Ensures the items array are unique.
- * @param {Object} pokemon - new pokemon or pokemon to update
- * @param {Object[]} pokemons - current array of pokemon the user has
- * @returns {Object[]}
- */
-const addPokemon = (pokemon, pokemons) => {
-  if (pokemons.length === 0) {
-    return [...pokemons, pokemon];
-  } else {
-    const uniqueId = pokemon.uniqueId;
-    const result = pokemons.filter((pokemon) => pokemon.uniqueId !== uniqueId); // remove old version of pokemon (if it exists)
-    return [...result, pokemon]; // replace or add with new version of pokemon
-  }
-};
-
-export { earningMoney, addPokemon };
+export { earningMoney };

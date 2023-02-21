@@ -10,7 +10,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import GameBackground from "./GameBackground";
-import { earningMoney, addPokemon } from "./utils/Utils";
+import { earningMoney } from "./utils/Utils";
+import { addPokemon } from "../../utils/Utils";
 
 import "./styles/pokemonselector.css";
 
@@ -149,6 +150,13 @@ const StartContent = ({ user, setUser, pokemons }) => {
  * @returns JSX
  */
 const MainContent = ({ user, setUser }) => {
+  let firstRowPokemons = user.pokemons;
+  let secondRowPokemons = [];
+  if (user.pokemons.length > 4) {
+    firstRowPokemons = user.pokemons.slice(0, 4);
+    secondRowPokemons = user.pokemons.slice(4, user.pokemons.length);
+  }
+
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <div className={`${BASE_STYLE}-starter-background-container`}>
@@ -156,9 +164,26 @@ const MainContent = ({ user, setUser }) => {
         <Stack
           spacing={2}
           direction="row"
-          className={`${BASE_STYLE}-starter-stack`}
+          className={`${BASE_STYLE}-pokemon-row-first`}
         >
-          {user.pokemons
+          {firstRowPokemons
+            .filter((pokemon) => !pokemon.isWorking)
+            .map((pokemon) => {
+              return (
+                <Pokemon
+                  key={pokemon.uniqueId}
+                  pokemonObject={pokemon}
+                  onClick={() => handleWorkStatus(0, pokemon, user, setUser)}
+                />
+              );
+            })}
+        </Stack>
+        <Stack
+          spacing={2}
+          direction="row"
+          className={`${BASE_STYLE}-pokemon-row-second`}
+        >
+          {secondRowPokemons
             .filter((pokemon) => !pokemon.isWorking)
             .map((pokemon) => {
               return (

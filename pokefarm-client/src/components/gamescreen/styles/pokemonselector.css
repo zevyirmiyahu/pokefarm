@@ -35,6 +35,18 @@
   left: 30%;
 }
 
+.pokemon-selector-pokemon-row-first {
+  position: absolute;
+  top: 55%;
+  left: 30%;
+}
+
+.pokemon-selector-pokemon-row-second {
+  position: absolute;
+  top: 72%;
+  left: 15%;
+}
+
 .pokemon-selector-starter-inner-container {
   display: flex;
   margin-left: auto;
