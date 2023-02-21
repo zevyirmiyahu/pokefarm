@@ -1,5 +1,6 @@
-import { typeFormatter } from "../Utils";
+import { typeFormatter, formatName } from "../Utils";
 
+// typeFormatter
 describe("General Util functions testing", () => {
   test("typeFormatter: Capitalizes 1 type value", () => {
     // ARRANGE
@@ -66,5 +67,28 @@ describe("General Util functions testing", () => {
 
     // ASSERT
     expect(result.length).toBe(0);
+  });
+
+  // formatName
+  test("formatName: Capitalizes first letters", () => {
+    // ARRANGE
+    const name = "bulbasaur";
+
+    // ACT
+    const result = formatName(name);
+
+    // ASSERT
+    expect(result).toBe("Bulbasaur");
+  });
+
+  test("formatName: No Errors if name is already capitalized", () => {
+    // ARRANGE
+    const name = "Bulbasaur";
+
+    // ACT
+    const result = formatName(name);
+
+    // ASSERT
+    expect(result).toBe("Bulbasaur");
   });
 });

@@ -4,6 +4,7 @@ import { earningMoney } from "../Utils";
 jest.useFakeTimers();
 
 describe("Testing Utils of gamescreen ", () => {
+  // earningMoney
   test("earningMoney: Expected value is 1 for empty payData map", () => {
     // ARRANGE
     const pokemonUniqueId = "chikorita" + Date.now(); // unique ID is just name + timestamp
