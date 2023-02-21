@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../assets/pokefarm-logo.png";
-import "./styles/banner.css";
+import "./styles/banner.scss";
 
 const BASE_STYLE = "header";
 

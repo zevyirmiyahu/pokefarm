@@ -1,8 +1,10 @@
-.pokemon-selector-starter-container {
+$pokemon-game-screen: "pokemon-game-screen";
+
+.#{$pokemon-game-screen}-starter-container {
   display: flex;
 }
 
-.pokemon-selector-message-content {
+.#{$pokemon-game-screen}-message-content {
   margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
@@ -10,7 +12,7 @@
   max-height: 160px;
 }
 
-.pokemon-selector-starter-background-container {
+.#{$pokemon-game-screen}-starter-background-container {
   padding-top: 1rem;
   padding-left: 3rem;
   padding-right: 1rem;
@@ -19,7 +21,7 @@
   left: 0;
 }
 
-.pokemon-selector-starter-background-image {
+.#{$pokemon-game-screen}-starter-background-image {
   position: relative;
   top: 0;
   left: 0;
@@ -29,39 +31,39 @@
   border-radius: 16px;
 }
 
-.pokemon-selector-starter-stack {
+.#{$pokemon-game-screen}-starter-stack {
   position: absolute;
   top: 55%;
   left: 30%;
 }
 
-.pokemon-selector-pokemon-row-first {
+.#{$pokemon-game-screen}-pokemon-row-first {
   position: absolute;
   top: 55%;
   left: 30%;
 }
 
-.pokemon-selector-pokemon-row-second {
+.#{$pokemon-game-screen}-pokemon-row-second {
   position: absolute;
   top: 72%;
   left: 15%;
 }
 
-.pokemon-selector-starter-inner-container {
+.#{$pokemon-game-screen}-starter-inner-container {
   display: flex;
   margin-left: auto;
   margin-right: auto;
 }
 
-.pokemon-selector-button {
+.#{$pokemon-game-screen}-button {
   cursor: pointer;
 }
 
-.pokemon-selector-button:hover {
+.#{$pokemon-game-screen}-button:hover {
   transform: scale(1.1);
 }
 
-.pokemon-selector-main-tool-container {
+.#{$pokemon-game-screen}-main-tool-container {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -71,7 +73,7 @@
   color: white !important;
 }
 
-.pokemon-selector-main-tool-payment {
+.#{$pokemon-game-screen}-main-tool-payment {
   border-style: solid;
   padding: 6px;
   border-radius: 6px;

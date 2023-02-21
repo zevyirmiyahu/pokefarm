@@ -1,4 +1,6 @@
-.shop-modal-pokemon-container {
+$shop-modal: "shop-modal";
+
+.#{$shop-modal}-pokemon-container {
   border-style: outset;
   border-radius: 6px;
   padding: 8px;

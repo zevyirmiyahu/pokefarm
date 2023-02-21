@@ -4,7 +4,7 @@ import { SPRITE_SIZE } from "../../constants/AppConstants";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import Button from "@mui/material/Button";
-import "./styles/pokemon.css";
+// import "./styles/pokemon.css";
 
 const getToolTipTitle = (id, name, types, isWorking) => {
   if (types.length === 2) {

@@ -10,7 +10,8 @@ import Pokeball from "../../assets/pokeball.png";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
 import { addPokemon } from "../../utils/Utils";
 import { generateRandomNumber } from "../../utils/Utils";
-import "./styles/shopmodal.css";
+// import "./styles/shopmodal.css";
+import "./styles/shopmodal.scss";
 
 const style = {
   position: "absolute",

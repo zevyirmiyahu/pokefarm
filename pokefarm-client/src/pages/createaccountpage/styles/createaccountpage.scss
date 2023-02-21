@@ -1,4 +1,6 @@
-.create-account-page-form-container {
+$create-account-page: "create-account-page";
+
+.#{$create-account-page}-form-container {
   background-color: white;
   margin-left: auto;
   margin-right: auto;
@@ -8,7 +10,7 @@
   margin-top: 5%;
 }
 
-#create-account-page-button-stack {
+#{$create-account-page}-button-stack {
   display: table;
   margin-left: auto;
   margin-right: auto;

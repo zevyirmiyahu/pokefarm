@@ -1,4 +1,6 @@
-.header-banner {
+$header-banner: "header-banner";
+
+.#{$header-banner} {
   display: flex;
   margin-top: 3%;
   margin-left: auto;

@@ -1,4 +1,6 @@
-.login-page-signin-container {
+$login-page: "login-page";
+
+.#{$login-page}-signin-container {
   background-color: white;
   margin-left: auto;
   margin-right: auto;
@@ -8,7 +10,7 @@
   margin-top: 5%;
 }
 
-#login-page-button-stack {
+#{$login-page}-button-stack {
   display: table;
   margin-left: auto;
   margin-right: auto;

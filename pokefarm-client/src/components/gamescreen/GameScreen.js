@@ -13,9 +13,9 @@ import GameBackground from "./GameBackground";
 import { earningMoney } from "./utils/Utils";
 import { addPokemon } from "../../utils/Utils";
 
-import "./styles/pokemonselector.css";
+import "./styles/gamescreen.scss";
 
-const BASE_STYLE = "pokemon-selector";
+const BASE_STYLE = "pokemon-game-screen";
 
 // For choosing a pokemon to add to your farm.
 const handleSelectPokemon = (pokemon, user, setUser) => {

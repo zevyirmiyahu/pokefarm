@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
-import "./styles/createaccountpage.css";
+import "./styles/createaccountpage.scss";
 
 const BASE_STYLE = "create-account-page";
 

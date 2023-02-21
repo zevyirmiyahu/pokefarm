@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import UserObject from "../../objects/UserObject";
-import "./styles/loginpage.css";
+import "./styles/loginpage.scss";
 
 const BASE_STYLE = "login-page";
 
