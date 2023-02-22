@@ -4,9 +4,11 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Properties;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -18,6 +20,7 @@ import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
 import com.pokefarm.app.constants.PokeAppConstants.RESPONSE;
 import com.pokefarm.app.constants.PokeAppConstants.STATUS;
 import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
+import com.pokefarm.app.services.email.EmailServiceImpl;
 
 /**
  * Service responsible CRUD operations on the user.
@@ -25,6 +28,7 @@ import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
  * @author Zev Yirmiyahu
  *
  */
+@Service
 public class UserService {
 	
 	public User createUser(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
@@ -38,7 +42,6 @@ public class UserService {
 		
 		final boolean isCreationSuccess = saveUser();
 		if (isCreationSuccess) {
-			sendEmailConfirmation(email);
 			// Change userId from initial to correct generated Id
 			user.setUserId(userId);
 			return user;
@@ -52,11 +55,6 @@ public class UserService {
 		System.out.println(userField);
 		// update in database
 		return null;
-	}
-
-	// Sends user email upon successful user creation.
-	private  void sendEmailConfirmation(final String email) {
-		
 	}
 	
 	private User convertJsonNodeToUserObject(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {

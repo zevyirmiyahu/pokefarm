@@ -29,7 +29,6 @@ public class LoginService {
 		jsonOb.put(JSON_KEYS.POKEMONS, new ArrayList<Pokemon>());
 		jsonOb.put(JSON_KEYS.LOGIN_REPONSE, RESPONSE.SUCCESS);
 		
-		
 		return jsonOb.toString();
 	}
 	

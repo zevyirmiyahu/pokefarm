@@ -131,9 +131,9 @@ const CreateAccountPage = () => {
               validatePassword();
               handleCreateUser(
                 {
-                  username: userNameRef,
-                  password: passwordRef,
-                  email: emailRef,
+                  username: userNameRef.current.value,
+                  password: passwordRef.current.value,
+                  email: emailRef.current.value,
                   pokemons: [],
                 },
                 navigate,

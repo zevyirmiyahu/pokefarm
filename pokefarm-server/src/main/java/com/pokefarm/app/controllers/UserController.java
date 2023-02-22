@@ -1,5 +1,6 @@
 package com.pokefarm.app.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,9 +13,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.pokefarm.app.beans.User;
 import com.pokefarm.app.services.UserService;
+import com.pokefarm.app.services.email.EmailService;
 
 @RestController
 public class UserController {
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/update-user", consumes = {"text/plain", "application/*"})
@@ -32,6 +37,8 @@ public class UserController {
 		
 		try {
 			User user = userService.createUser(userjsonNode);
+			
+			emailService.sendEmail(user.getEmail(), user.getUserName());
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block

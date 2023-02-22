@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
-	private String userId = "0x";
+	private String userId = "0x"; // Temporary ID
 	private String username;
 	private String password;
 	private String email;
