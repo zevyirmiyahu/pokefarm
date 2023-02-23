@@ -55,5 +55,5 @@ export const addPokemon = (pokemon, pokemons) => {
  * @returns
  */
 export const generateUniversallyUniqueId = (name) => {
-  return name + Date.now().toString(16) + Math.random().toString(16);
+  return name + Date.now().toString(16) + Math.random().toString(16).slice(2);
 };
