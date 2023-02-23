@@ -11,7 +11,7 @@ public class User {
 	private String email;
 	private List<Pokemon> pokemons;
 	
-	public User(@JsonProperty("username") final String username, @JsonProperty("password") final String password, @JsonProperty("email")final String email, @JsonProperty("pokemons")final List<Pokemon> pokemons) {
+	public User(@JsonProperty("username") final String username, @JsonProperty("password") final String password, @JsonProperty("email") final String email, @JsonProperty("pokemons") final List<Pokemon> pokemons) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -45,7 +45,7 @@ public class User {
 	}
 
 
-	public String getUserName() {
+	public String getUsername() {
 		return username;
 	}
 	

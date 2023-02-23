@@ -34,7 +34,7 @@ export const generateRandomNumber = (min, max) => {
 };
 
 /**
- * Ensures the items array are unique.
+ * Ensures the pokemon array has unique elements.
  * @param {Object} pokemon - new pokemon or pokemon to update
  * @param {Object[]} pokemons - current array of pokemon the user has
  * @returns {Object[]}
@@ -47,4 +47,13 @@ export const addPokemon = (pokemon, pokemons) => {
     const result = pokemons.filter((pokemon) => pokemon.uniqueId !== uniqueId); // remove old version of pokemon (if it exists)
     return [...result, pokemon]; // replace or add with new version of pokemon
   }
+};
+
+/**
+ * Generates a universally unique identifier
+ * @param {string} name
+ * @returns
+ */
+export const generateUniversallyUniqueId = (name) => {
+  return name + Date.now().toString(16) + Math.random().toString(16);
 };

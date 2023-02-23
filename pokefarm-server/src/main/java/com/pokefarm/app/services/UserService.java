@@ -4,9 +4,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.Properties;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pokefarm.app.beans.Pokemon;
 import com.pokefarm.app.beans.User;
 import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
-import com.pokefarm.app.constants.PokeAppConstants.RESPONSE;
-import com.pokefarm.app.constants.PokeAppConstants.STATUS;
-import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
-import com.pokefarm.app.services.email.EmailServiceImpl;
 
 /**
  * Service responsible CRUD operations on the user.
@@ -34,16 +28,11 @@ public class UserService {
 	public User createUser(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
 		User user = convertJsonNodeToUserObject(userJsonNode);
 		String userId = generateUserId();
-		String userName = user.getUserName();
-		String email = user.getEmail();
-		String password = user.getPassword();
-		
-		JSONObject jsonResponse = buildJsonResponse(userId, userName, email, new ArrayList<Pokemon>());
+		user.setUserId(userId);
 		
 		final boolean isCreationSuccess = saveUser();
 		if (isCreationSuccess) {
 			// Change userId from initial to correct generated Id
-			user.setUserId(userId);
 			return user;
 		} else {
 			// to something for failure
@@ -85,10 +74,10 @@ public class UserService {
 	}
 	
 	// Builds user data to hand back
-	private JSONObject buildJsonResponse(final String userId, final String userName, final String email, final List<Pokemon> pokemons) {
+	private JSONObject buildJsonResponse(final String userId, final String username, final String email, final List<Pokemon> pokemons) {
 		JSONObject jsonResponse = new JSONObject();
 		jsonResponse.put(JSON_KEYS.USER_ID, userId);
-		jsonResponse.put(JSON_KEYS.USER_NAME, userName);
+		jsonResponse.put(JSON_KEYS.USER_NAME, username);
 		jsonResponse.put(JSON_KEYS.EMAIL, email);
 		jsonResponse.put(JSON_KEYS.POKEMONS, pokemons);
 		

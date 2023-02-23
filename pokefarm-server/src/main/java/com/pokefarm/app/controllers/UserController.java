@@ -38,7 +38,7 @@ public class UserController {
 		try {
 			User user = userService.createUser(userjsonNode);
 			
-			emailService.sendEmail(user.getEmail(), user.getUserName());
+			emailService.sendEmail(user.getEmail(), user.getUsername());
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (JsonMappingException e) {
 			// TODO Auto-generated catch block

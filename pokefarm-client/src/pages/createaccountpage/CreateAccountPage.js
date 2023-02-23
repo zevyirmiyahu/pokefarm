@@ -13,23 +13,20 @@ import "./styles/createaccountpage.scss";
 const BASE_STYLE = "create-account-page";
 
 /**
- * Takes users credentials and post request backend
+ * Takes users credentials and post request to backend
  * @param {{string, string}} credentials
  */
 const handleCreateUser = (credentials, navigate, setUser) => {
   axios
     .post(`${BASE_URL}/create`, credentials)
     .then((response) => {
-      // const { loginResponse } = response.data;
-      const { userId, username, email, pokemons } = response.data;
       console.log(response.data);
-      // const { userId, username, pokemons } = response.data;
-      setUser({ ...credentials });
-      // navigate(ROUTES.LOGIN_IN);
+      const { userId, username, pokemons } = response.data;
+      setUser({ userId, username, pokemons });
       navigate(`/${ROUTES.USER_ACCOUNT}`);
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 

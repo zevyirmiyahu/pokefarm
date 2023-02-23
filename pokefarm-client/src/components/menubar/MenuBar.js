@@ -52,7 +52,7 @@ const MenuBar = () => {
                 <b>Pokémon:</b> {pokemonCount}
               </Typography>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <b>Money:</b> {money} ₱
+                <b>Money:</b> {money ? money : 0} ₱
               </Typography>
             </Stack>
             <ShopModal />
