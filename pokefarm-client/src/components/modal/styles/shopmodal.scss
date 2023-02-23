@@ -1,3 +1,5 @@
+@use "../../../styles/colors";
+
 $shop-modal: "shop-modal";
 
 .#{$shop-modal}-pokemon-container {
@@ -5,5 +7,5 @@ $shop-modal: "shop-modal";
   border-radius: 6px;
   padding: 8px;
   border-width: 4px;
-  background-color: ghostwhite;
+  background-color: colors.$app-white-2;
 }

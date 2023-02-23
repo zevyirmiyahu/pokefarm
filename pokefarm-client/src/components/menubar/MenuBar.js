@@ -43,9 +43,6 @@ const MenuBar = () => {
             </IconButton>
             <Stack spacing={5} direction="row">
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                <b>Account ID:</b> {userId}
-              </Typography>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 <b>Farmer:</b> {username}
               </Typography>
               <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -56,6 +53,7 @@ const MenuBar = () => {
               </Typography>
             </Stack>
             <ShopModal />
+            <p style={{ marginLeft: "auto" }}>Account: {userId}</p>
             <Button
               id="profile-page-logout-button"
               onClick={() => handleLogout(navigate, setUser)}

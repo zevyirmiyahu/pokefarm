@@ -1,7 +1,9 @@
+@use "../../../styles/colors";
+
 $create-account-page: "create-account-page";
 
 .#{$create-account-page}-form-container {
-  background-color: white;
+  background-color: colors.$app-white-1;
   margin-left: auto;
   margin-right: auto;
   display: table;

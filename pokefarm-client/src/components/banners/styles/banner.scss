@@ -1,3 +1,5 @@
+@use "../../../styles/colors";
+
 $header-banner: "header-banner";
 
 .#{$header-banner} {
@@ -9,7 +11,7 @@ $header-banner: "header-banner";
   opacity: 100% !important; /* Protects against dark mode making opac */
   border-width: 5px;
   border-style: solid;
-  border-color: black;
+  border-color: colors.$app-black-1;
   border-radius: 8px;
-  background-color: white;
+  background-color: colors.$app-white-1;
 }

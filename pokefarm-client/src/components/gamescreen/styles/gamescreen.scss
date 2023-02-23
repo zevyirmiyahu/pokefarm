@@ -1,3 +1,5 @@
+@use "../../../styles/colors";
+
 $pokemon-game-screen: "pokemon-game-screen";
 
 .#{$pokemon-game-screen}-starter-container {
@@ -27,7 +29,7 @@ $pokemon-game-screen: "pokemon-game-screen";
   left: 0;
   border-width: 32px;
   border-style: solid;
-  border-color: #2b2b2b;
+  border-color: colors.$app-grey;
   border-radius: 16px;
 }
 
@@ -69,8 +71,8 @@ $pokemon-game-screen: "pokemon-game-screen";
   margin-top: auto;
   margin-bottom: auto;
   height: 24rem;
-  background-color: #2b2b2b !important;
-  color: white !important;
+  background-color: colors.$app-grey !important;
+  color: colors.$app-white-1 !important;
 }
 
 .#{$pokemon-game-screen}-main-tool-payment {
