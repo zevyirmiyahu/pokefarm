@@ -74,9 +74,3 @@ $pokemon-game-screen: "pokemon-game-screen";
   background-color: colors.$app-grey !important;
   color: colors.$app-white-1 !important;
 }
-
-.#{$pokemon-game-screen}-main-tool-payment {
-  border-style: solid;
-  padding: 6px;
-  border-radius: 6px;
-}

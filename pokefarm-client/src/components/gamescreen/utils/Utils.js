@@ -1,4 +1,5 @@
 /**
+ * @deprecated - don't use time logic move to Pokemon component
  * Payment system for working pokemon. As the pokemon work, the timer
  * ticks away proportional to one second equals one pokedollar.
  *

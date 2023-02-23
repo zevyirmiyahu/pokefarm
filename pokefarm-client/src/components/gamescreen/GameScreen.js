@@ -10,7 +10,6 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import GameBackground from "./GameBackground";
-import { earningMoney } from "./utils/Utils";
 import { addPokemon } from "../../utils/Utils";
 
 import "./styles/gamescreen.scss";
@@ -71,8 +70,6 @@ const StarterMessageContent = () => {
 };
 
 const MainToolContent = ({ user, setUser }) => {
-  const [payData, setPayData] = useState(new Map()); // key: uniqueId, value: payEarned
-
   return (
     <Card className={`${BASE_STYLE}-main-tool-container`}>
       <CardContent>
@@ -84,22 +81,15 @@ const MainToolContent = ({ user, setUser }) => {
           {user.pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
-              const currentMoney = payData.get(pokemon.uniqueId);
-              earningMoney(pokemon.uniqueId, payData, setPayData);
               return (
                 <div key={pokemon.uniqueId}>
                   <Pokemon
                     pokemonObject={pokemon}
                     isAnimated={false}
                     onClick={() => {
-                      handleWorkStatus(currentMoney, pokemon, user, setUser);
-                      payData.delete(pokemon.uniqueId); // remove value
-                      setPayData(new Map(payData)); // reset pay
+                      handleWorkStatus(0, pokemon, user, setUser);
                     }}
                   />
-                  <p className={`${BASE_STYLE}-main-tool-payment`}>
-                    Payment: {currentMoney ? currentMoney : 0} ₱
-                  </p>
                 </div>
               );
             })}
