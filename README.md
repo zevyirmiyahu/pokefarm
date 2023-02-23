@@ -1,4 +1,4 @@
-# PokeFarm ![Magikarp](Images/129.gif)
+# PokéFarm ![Magikarp](Images/129.gif)
 ## A React + Java full-stack application built using Pokemon!
 
 ## Quick Overview:
