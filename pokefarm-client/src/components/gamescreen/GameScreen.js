@@ -84,6 +84,7 @@ const MainToolContent = ({ user, setUser }) => {
           {user.pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
+              const currentMoney = payData.get(pokemon.uniqueId);
               earningMoney(pokemon.uniqueId, payData, setPayData);
               return (
                 <div key={pokemon.uniqueId}>
@@ -91,14 +92,13 @@ const MainToolContent = ({ user, setUser }) => {
                     pokemonObject={pokemon}
                     isAnimated={false}
                     onClick={() => {
-                      const money = payData.get(pokemon.uniqueId);
-                      handleWorkStatus(money, pokemon, user, setUser);
+                      handleWorkStatus(currentMoney, pokemon, user, setUser);
                       payData.delete(pokemon.uniqueId); // remove value
                       setPayData(new Map(payData)); // reset pay
                     }}
                   />
                   <p className={`${BASE_STYLE}-main-tool-payment`}>
-                    Payment: {payData.get(pokemon.uniqueId)} ₱
+                    Payment: {currentMoney ? currentMoney : 0} ₱
                   </p>
                 </div>
               );
