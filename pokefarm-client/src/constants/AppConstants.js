@@ -8,8 +8,10 @@ const LOGIN = Object.freeze({
 });
 
 const END_POINTS = Object.freeze({
+  LOGIN: "login",
   UPDATE_USER: "update-user",
   SELECT_POKEMON: "select-pokemon",
+  SAVE_USER: "save-user",
 });
 
 const SESSION = Object.freeze({

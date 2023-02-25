@@ -6,15 +6,19 @@ import java.util.Base64;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pokefarm.app.beans.Pokemon;
-import com.pokefarm.app.beans.User;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
+import com.pokefarm.app.pojos.Pokemon;
+import com.pokefarm.app.pojos.User;
+import com.pokefarm.app.serialization.Serialization;
 
 /**
  * Service responsible CRUD operations on the user.
@@ -25,19 +29,37 @@ import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
 @Service
 public class UserService {
 	
-	public User createUser(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
-		User user = convertJsonNodeToUserObject(userJsonNode);
-		String userId = generateUserId();
-		user.setUserId(userId);
-		
-		final boolean isCreationSuccess = saveUser();
-		if (isCreationSuccess) {
-			// Change userId from initial to correct generated Id
+	public User createUser(final JsonNode userJsonNode) throws Exception {
+		User user = null;
+		try {
+			user = convertJsonNodeToUserObject(userJsonNode);
+			String userId = generateUserId();
+			user.setUserId(userId);
 			return user;
-		} else {
-			// to something for failure
-			return null;
+		} catch (JsonProcessingException e) {
+			final String errorMsg = "Error occured while processing user json";
+			System.err.println(errorMsg);
+			e.printStackTrace();
+			throw new Exception(errorMsg);
 		}
+		
+//		final boolean isCreationSuccess = saveUser();
+//		if (isCreationSuccess) {
+//			// Change userId from initial to correct generated Id
+//			return user;
+//		} else {
+//			// to something for failure
+//			return null;
+//		}
+	}
+	
+	/**
+	 * Temporary way to save user data using serialization
+	 * @param user
+	 */
+	public void saveUser(User user) {
+		final Serialization serialization = new Serialization();
+		serialization.serializeUser(user);
 	}
 	
 	public User updateUser(final JsonNode userField) {
@@ -46,11 +68,34 @@ public class UserService {
 		return null;
 	}
 	
+	/*
+	 * Separate the pokemons list from the user object
+	 * convert each to their respected java object
+	 * add the pokemons list to the User object.
+	 */
 	private User convertJsonNodeToUserObject(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
 		final ObjectMapper mapper = new ObjectMapper();
-		String userJson = mapper.writeValueAsString(userJsonNode);
 		
-		return mapper.readValue(userJson, User.class);
+		// Handle Pokemons
+		final JsonNode pokemons = userJsonNode.get("pokemons");
+		final List<Pokemon> pokemonObjects = new ArrayList<>();
+		
+		for(JsonNode pokemon: pokemons) {
+			final String pokemonJson = mapper.writeValueAsString(pokemon);
+			final Pokemon pokemonObj = mapper.readValue(pokemonJson, Pokemon.class);
+			pokemonObjects.add(pokemonObj);
+		}
+		
+		// Handle User
+		ObjectNode userObjectNode = ((ObjectNode) userJsonNode);
+		userObjectNode.remove("pokemons");
+		String userJson = mapper.writeValueAsString(userObjectNode);
+		User user = mapper.readValue(userJson, User.class);
+		
+		// Set Pokemons on User
+		user.setPokemons(pokemonObjects);
+		
+		return user;
 	}
 	
 	/**

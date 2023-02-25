@@ -12,7 +12,7 @@ import com.pokefarm.app.services.LoginService;
 public class LoginController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
-	@PostMapping(value = "/Login", consumes = {"text/plain", "application/*"})
+	@PostMapping(value = "/login", consumes = {"text/plain", "application/*"})
 	public String getUserLogin(@RequestBody JsonNode credentials) {
 		final LoginService loginService = new LoginService();
 		String userName = credentials.get("username").textValue();

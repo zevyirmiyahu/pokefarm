@@ -2,8 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../routes/providers/AuthProvider";
 
-import { ROUTES } from "../../constants/AppConstants";
+import { BASE_URL, END_POINTS, ROUTES } from "../../constants/AppConstants";
 
+import axios from "axios";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,9 +15,22 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import ShopModal from "../modal/ShopModal";
 
-const handleLogout = (navigate, setUser) => {
-  setUser(null);
-  navigate(ROUTES.LOGIN_IN);
+/**
+ *
+ * @param {*} navigate
+ * @param {*} user
+ * @param {*} setUser
+ */
+const handleLogout = (navigate, user, setUser) => {
+  axios
+    .post(`${BASE_URL}/${END_POINTS.SAVE_USER}`, user)
+    .then((response) => {
+      setUser(null);
+      navigate(ROUTES.LOGIN_IN);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 const MenuBar = () => {
@@ -56,7 +70,7 @@ const MenuBar = () => {
             <p style={{ marginLeft: "auto" }}>Account: {userId}</p>
             <Button
               id="profile-page-logout-button"
-              onClick={() => handleLogout(navigate, setUser)}
+              onClick={() => handleLogout(navigate, user, setUser)}
               color="inherit"
             >
               Logout

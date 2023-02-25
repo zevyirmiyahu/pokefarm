@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import com.pokefarm.app.constants.PokeAppConstants.STATUS;
 import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
-import com.pokefarm.app.beans.Pokemon;
+import com.pokefarm.app.pojos.Pokemon;
 import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
 import com.pokefarm.app.constants.PokeAppConstants.RESPONSE;; 
 
@@ -26,6 +26,9 @@ public class LoginService {
 		JSONObject jsonOb = new JSONObject();
 		jsonOb.put(JSON_KEYS.USER_ID, adminId);
 		jsonOb.put(JSON_KEYS.USER_NAME, userName);
+		jsonOb.put(JSON_KEYS.PASSWORD, password);
+		jsonOb.put(JSON_KEYS.EMAIL, "Blank for now...");
+		jsonOb.put(JSON_KEYS.MONEY, 0);
 		jsonOb.put(JSON_KEYS.POKEMONS, new ArrayList<Pokemon>());
 		jsonOb.put(JSON_KEYS.LOGIN_REPONSE, RESPONSE.SUCCESS);
 		

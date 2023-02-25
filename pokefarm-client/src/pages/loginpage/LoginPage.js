@@ -1,6 +1,11 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES, LOGIN, BASE_URL } from "../../constants/AppConstants";
+import {
+  ROUTES,
+  LOGIN,
+  BASE_URL,
+  END_POINTS,
+} from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import axios from "axios";
 import Banner from "../../components/banners/Banner";
@@ -19,12 +24,21 @@ const BASE_STYLE = "login-page";
  */
 export const handleLogin = (credentials, navigate, setUser) => {
   axios
-    .post(`${BASE_URL}/Login`, credentials)
+    .post(`${BASE_URL}/${END_POINTS.LOGIN}`, credentials)
     .then((response) => {
       const { loginResponse } = response.data;
       if (loginResponse === LOGIN.SUCCESS) {
-        const { userId, username, pokemons } = response.data;
-        setUser(new UserObject(userId, username, 0, pokemons));
+        const { userId, username, password, email, money, pokemons } =
+          response.data;
+        const userObject = new UserObject(
+          userId,
+          username,
+          password,
+          email,
+          money,
+          pokemons
+        );
+        setUser(userObject);
         navigate(ROUTES.USER_ACCOUNT);
       }
       return loginResponse; // Login Failure

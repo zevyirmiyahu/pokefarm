@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
 import "./styles/createaccountpage.scss";
+import UserObject from "../../objects/UserObject";
 
 const BASE_STYLE = "create-account-page";
 
@@ -21,8 +22,16 @@ const handleCreateUser = (credentials, navigate, setUser) => {
     .post(`${BASE_URL}/create`, credentials)
     .then((response) => {
       console.log(response.data);
-      const { userId, username, pokemons } = response.data;
-      setUser({ userId, username, pokemons });
+      const { userId, username, password, email, pokemons } = response.data;
+      const userObject = new UserObject(
+        userId,
+        username,
+        password,
+        email,
+        0,
+        pokemons
+      );
+      setUser(userObject);
       navigate(`/${ROUTES.USER_ACCOUNT}`);
     })
     .catch((error) => {
@@ -41,9 +50,6 @@ const CreateAccountPage = () => {
   const passwordRef = useRef("");
   const confirmPasswordRef = useRef("");
   const emailRef = useRef("");
-
-  // holds user state data
-  const [credentials, setCredentials] = useState({});
   const [isError, setIsError] = useState(false);
 
   const validatePassword = () => {
