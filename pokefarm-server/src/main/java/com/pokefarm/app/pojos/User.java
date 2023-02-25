@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pokefarm.app.constants.PokeAppConstants.USER;
+import com.pokefarm.app.constants.UserConstants.USER;
 
 public class User implements Serializable {
 	private static final long serialVersionUID = -3184860057020512007L;

@@ -6,11 +6,11 @@ import java.util.Base64;
 
 import org.json.JSONObject;
 
-import com.pokefarm.app.constants.PokeAppConstants.STATUS;
-import com.pokefarm.app.constants.PokeAppConstants.TOKENS;
+import com.pokefarm.app.constants.GeneralConstants.STATUS;
+import com.pokefarm.app.constants.GeneralConstants.TOKENS;
 import com.pokefarm.app.pojos.Pokemon;
-import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
-import com.pokefarm.app.constants.PokeAppConstants.RESPONSE;; 
+import com.pokefarm.app.constants.JsonConstants.JSON_KEYS;
+import com.pokefarm.app.constants.GeneralConstants.RESPONSE;; 
 
 public class LoginService {
 	// Dummy credentials
