@@ -25,4 +25,8 @@ public final class PokeAppConstants {
 		public static final String TOKEN_FAILURE = "Token_Failure";
 	}
 	
+	public final class USER {
+		public static final String INITIAL_ID = "0x";
+	}
+	
 }

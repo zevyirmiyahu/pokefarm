@@ -6,8 +6,6 @@ import java.util.Base64;
 import java.util.List;
 
 import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pokefarm.app.constants.PokeAppConstants.JSON_KEYS;
+import com.pokefarm.app.constants.PokeAppConstants.USER;
 import com.pokefarm.app.pojos.Pokemon;
 import com.pokefarm.app.pojos.User;
 import com.pokefarm.app.serialization.Serialization;
@@ -33,8 +32,10 @@ public class UserService {
 		User user = null;
 		try {
 			user = convertJsonNodeToUserObject(userJsonNode);
-			String userId = generateUserId();
-			user.setUserId(userId);
+			
+			// Assign Unique User Id if ID is initial
+			String userId = user.getUserId();
+			user.setUserId(USER.INITIAL_ID.equals(userId) ? generateUserId() : userId );
 			return user;
 		} catch (JsonProcessingException e) {
 			final String errorMsg = "Error occured while processing user json";
@@ -42,15 +43,6 @@ public class UserService {
 			e.printStackTrace();
 			throw new Exception(errorMsg);
 		}
-		
-//		final boolean isCreationSuccess = saveUser();
-//		if (isCreationSuccess) {
-//			// Change userId from initial to correct generated Id
-//			return user;
-//		} else {
-//			// to something for failure
-//			return null;
-//		}
 	}
 	
 	/**
@@ -60,6 +52,11 @@ public class UserService {
 	public void saveUser(User user) {
 		final Serialization serialization = new Serialization();
 		serialization.serializeUser(user);
+	}
+	
+	public User loadUser() {
+		final Serialization serialization = new Serialization();
+		return serialization.deserializeUser();
 	}
 	
 	public User updateUser(final JsonNode userField) {

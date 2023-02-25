@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.pokefarm.app.pojos.User;
-import com.pokefarm.app.serialization.Serialization;
 import com.pokefarm.app.services.UserService;
 import com.pokefarm.app.services.email.EmailService;
 
@@ -56,10 +53,9 @@ public class UserController {
 	@PostMapping(value = "/save-user", consumes = {"text/plain", "application/*"})
 	public ResponseEntity<User> saveUser(@RequestBody final JsonNode userjsonNode) {
 		final UserService userService = new UserService();
-		final Serialization serialization = new Serialization();
 		try {
-			final User user = userService.createUser(userjsonNode);		
-//			serialization.serializeUser(user);
+			final User user = userService.createUser(userjsonNode);	
+			userService.saveUser(user);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (Exception exception) {
 			final String errorMsg = "Exception occurred while trying to create a user";

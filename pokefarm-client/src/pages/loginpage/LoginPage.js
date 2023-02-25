@@ -26,10 +26,9 @@ export const handleLogin = (credentials, navigate, setUser) => {
   axios
     .post(`${BASE_URL}/${END_POINTS.LOGIN}`, credentials)
     .then((response) => {
-      const { loginResponse } = response.data;
-      if (loginResponse === LOGIN.SUCCESS) {
-        const { userId, username, password, email, money, pokemons } =
-          response.data;
+      const { userId, username, password, email, money, pokemons } =
+        response.data;
+      if (response.status === LOGIN.SUCCESS) {
         const userObject = new UserObject(
           userId,
           username,
@@ -40,8 +39,9 @@ export const handleLogin = (credentials, navigate, setUser) => {
         );
         setUser(userObject);
         navigate(ROUTES.USER_ACCOUNT);
+      } else {
+        throw new Error("Login failed with status: " + response.status);
       }
-      return loginResponse; // Login Failure
     })
     .catch((error) => {
       console.log(error);

@@ -3,7 +3,7 @@ const POKE_API = "https://pokeapi.co/api/v2/pokemon";
 const BASE_URL = "http://localhost:8080";
 
 const LOGIN = Object.freeze({
-  SUCCESS: "success",
+  SUCCESS: 200,
   FAILURE: "failure",
 });
 

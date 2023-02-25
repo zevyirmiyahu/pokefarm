@@ -10,16 +10,16 @@ import com.pokefarm.app.pojos.User;
 
 public class Serialization {
 	
-	private final static String FILE_PATH = "user.ser";
+	private final static String FILE_NAME = "user.ser";
 	
 	public void serializeUser(User user) {
 		final FileOutputStream fileOut;
 		
 		try {
-			fileOut = new FileOutputStream(FILE_PATH);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(user);
-			out.close();
+			fileOut = new FileOutputStream(FILE_NAME);
+			ObjectOutputStream outputStream = new ObjectOutputStream(fileOut);
+			outputStream.writeObject(user);
+			outputStream.close();
 			fileOut.close();
 			System.out.println("Data Serialized successfully!");
 		} catch (IOException e) {	
@@ -28,12 +28,14 @@ public class Serialization {
 	}
 	
 	public User deserializeUser() {
+		final String FILE_NAME = "user.ser";
+		
 		User user = null;
 		try {
-			FileInputStream fileIn = new FileInputStream("/tmp/employee.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-	        user = (User) in.readObject();
-	        in.close();
+			FileInputStream fileIn = new FileInputStream(FILE_NAME);
+			ObjectInputStream inputStream = new ObjectInputStream(fileIn);
+	        user = (User) inputStream.readObject();
+	        inputStream.close();
 	        fileIn.close();
 	        return user;
 		} catch (IOException ioException) {

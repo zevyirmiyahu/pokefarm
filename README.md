@@ -22,6 +22,8 @@ Coming soon...
 - **Java**
     - Spring: https://spring.io/ 
     - JavaMail API + Spring JavaMailSender: [Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)
+    - Jackson
+    - Serialization
 - **SQL**
 
 <br/>

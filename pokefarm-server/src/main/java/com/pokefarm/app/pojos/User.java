@@ -4,17 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pokefarm.app.constants.PokeAppConstants.USER;
 
-public class User {
-//	private static final long serialVersionUID = -3184860057020512007L;
-	private String userId = "0x"; // Temporary ID
+public class User implements Serializable {
+	private static final long serialVersionUID = -3184860057020512007L;
+	private String userId = USER.INITIAL_ID; // Temporary ID
 	private String username;
 	private String password;
 	private String email;
 	private int money; 
 	private List<Pokemon> pokemons;
 	
-//	public User() {}
+	public User() {}
 	
 	public User(@JsonProperty("username") final String username, @JsonProperty("password") final String password, @JsonProperty("email") final String email, @JsonProperty("money") final int money, @JsonProperty("pokemons") final List<Pokemon> pokemons) {
 		this.username = username;

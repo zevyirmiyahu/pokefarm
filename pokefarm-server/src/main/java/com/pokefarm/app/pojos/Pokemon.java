@@ -1,13 +1,18 @@
 package com.pokefarm.app.pojos;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Pokemon {
+public class Pokemon implements Serializable {
+	private static final long serialVersionUID = 4445952753137902761L;
 	private String uniqueId;
 	private String id;
 	private String name;
 	private String[] types;
 	private boolean isWorking;
+	
+	public Pokemon() {}
 	
 	public Pokemon(@JsonProperty("uniqueId") final String uniqueId, @JsonProperty("id") final String id, @JsonProperty("name") final String name, @JsonProperty("types") final String[] types, @JsonProperty("isWorking") final boolean isWorking) {
 		this.uniqueId = uniqueId;
