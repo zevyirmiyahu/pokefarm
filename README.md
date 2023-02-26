@@ -14,16 +14,20 @@ Coming soon...
 - **React:**
     - React Testing Library: https://testing-library.com/
     - React Router: https://reactrouter.com/en/main
-    - Material UI: https://mui.com/
-    - Axios: https://axios-http.com/
-- Sass: https://sass-lang.com/
-- Jest: https://jestjs.io/
+- **Material UI:** https://mui.com/
+- **Axios:** https://axios-http.com/
+- **Sass:** https://sass-lang.com/
+- **Jest:** https://jestjs.io/
 ### **Backend**
 - **Java**
     - Spring: https://spring.io/ 
     - JavaMail API + Spring JavaMailSender: [Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)
     - Jackson
+    - Log4j
     - Serialization
+    - JUnit
+    - Mockito
+
 - **SQL**
 
 <br/>

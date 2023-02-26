@@ -65,6 +65,7 @@ nb-configuration.xml
 /dist
 /tmp
 /out-tsc
+/logs
 
 # dependencies
 pokefarm-client/node_modules
