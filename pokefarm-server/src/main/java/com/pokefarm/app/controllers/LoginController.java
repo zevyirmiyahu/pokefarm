@@ -17,7 +17,6 @@ import com.pokefarm.app.services.UserService;
 @RestController
 public class LoginController {
     private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
-
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/login", consumes = {"text/plain", "application/*"})
@@ -29,7 +28,7 @@ public class LoginController {
 		
 		// Deserialize user data
 		User user = userService.loadUser(username, password);
-		LOGGER.info("Logged in...");
+		LOGGER.info("Successfully Logged in User: " + username);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

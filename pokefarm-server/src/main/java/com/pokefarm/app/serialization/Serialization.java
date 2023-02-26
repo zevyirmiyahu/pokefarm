@@ -5,15 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.pokefarm.app.constants.SerializationConstants.SERIALIZATION;
 import com.pokefarm.app.pojos.User;
 
 public class Serialization {
-	
+    private static final Logger LOGGER = LogManager.getLogger();
+
 	public void serializeUser(User user) {		
 		try {
 			// obtain Users data from file
@@ -26,10 +28,9 @@ public class Serialization {
 			outputStream.writeObject(users);
 			outputStream.close();
 			fileOut.close();
-			System.out.println(SERIALIZATION.SERIALIZAION_SUCCESS_MSG);
-		} catch (IOException e) {	
-			System.err.println(SERIALIZATION.SERIALIZAION_FAILURE_MSG);
-			e.printStackTrace();
+			LOGGER.info(SERIALIZATION.SERIALIZAION_SUCCESS_MSG);
+		} catch (IOException ioException) {	
+			LOGGER.error(SERIALIZATION.SERIALIZAION_FAILURE_MSG, ioException);
 		}
 	}
 	
@@ -52,12 +53,10 @@ public class Serialization {
 				return new HashMap<String, User>();
 			}
 		} catch (IOException ioException) {
-			System.err.println(SERIALIZATION.DESERIALIZAION_FAILURE_MSG_1);
-			ioException.printStackTrace();
+			LOGGER.error(SERIALIZATION.DESERIALIZAION_FAILURE_MSG_1, ioException);
 	        return null;
 		} catch (ClassNotFoundException classNotFoundException) {
-			System.err.println(SERIALIZATION.DESERIALIZAION_FAILURE_MSG_2);
-			classNotFoundException.printStackTrace();
+			LOGGER.error(SERIALIZATION.DESERIALIZAION_FAILURE_MSG_2, classNotFoundException);
 			return null;
 		}
 	}

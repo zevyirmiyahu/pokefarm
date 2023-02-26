@@ -6,16 +6,18 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pokefarm.app.constants.JsonConstants.JSON_KEYS;
 import com.pokefarm.app.constants.UserConstants.USER;
+import com.pokefarm.app.exceptions.UserCreationException;
 import com.pokefarm.app.pojos.Pokemon;
 import com.pokefarm.app.pojos.User;
 import com.pokefarm.app.serialization.Serialization;
@@ -28,8 +30,9 @@ import com.pokefarm.app.serialization.Serialization;
  */
 @Service
 public class UserService {
-	
-	public User createUser(final JsonNode userJsonNode) throws Exception {
+    private static final Logger LOGGER = LogManager.getLogger(UserService.class);
+
+	public User createUser(final JsonNode userJsonNode) throws UserCreationException {
 		try {
 			final User user = convertJsonNodeToUserObject(userJsonNode);
 			
@@ -39,9 +42,8 @@ public class UserService {
 			return user;
 		} catch (JsonProcessingException e) {
 			final String errorMsg = "Error occured while processing user json";
-			System.err.println(errorMsg);
-			e.printStackTrace();
-			throw new Exception(errorMsg);
+			LOGGER.error(errorMsg, e);
+			throw new UserCreationException(e);
 		}
 	}
 	
@@ -90,7 +92,7 @@ public class UserService {
 	 * convert each to their respected java object
 	 * add the pokemons list to the User object.
 	 */
-	private User convertJsonNodeToUserObject(final JsonNode userJsonNode) throws JsonMappingException, JsonProcessingException {
+	private User convertJsonNodeToUserObject(final JsonNode userJsonNode) throws JsonProcessingException {
 		final ObjectMapper mapper = new ObjectMapper();
 		
 		// Handle Pokemons
