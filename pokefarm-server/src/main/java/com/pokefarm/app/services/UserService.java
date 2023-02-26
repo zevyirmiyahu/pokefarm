@@ -3,6 +3,7 @@ package com.pokefarm.app.services;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -29,9 +30,8 @@ import com.pokefarm.app.serialization.Serialization;
 public class UserService {
 	
 	public User createUser(final JsonNode userJsonNode) throws Exception {
-		User user = null;
 		try {
-			user = convertJsonNodeToUserObject(userJsonNode);
+			final User user = convertJsonNodeToUserObject(userJsonNode);
 			
 			// Assign Unique User Id if ID is initial
 			String userId = user.getUserId();
@@ -54,9 +54,29 @@ public class UserService {
 		serialization.serializeUser(user);
 	}
 	
-	public User loadUser() {
+	public User loadUser(final String username, final String password) {
 		final Serialization serialization = new Serialization();
-		return serialization.deserializeUser();
+		final HashMap<String, User> users = serialization.deserializeUserList();
+		return getUser(username, password, users);
+	}
+	
+	private User getUser(final String username, final String password, final HashMap<String, User> users) {
+		/**
+		 * TODO: Delete this IF when done dev.
+		 * Temporary code for Dev purpose.
+		 * We create an admin user if none exist
+		 */
+		if(users.size() == 0) {
+			return createTempUser();
+		}
+		
+		for(User user : users.values()) {
+			boolean isCorrectUser = user.getUsername().equals(username) && user.getPassword().equals(password);
+			if(isCorrectUser) {
+				return user;
+			}
+		}
+		return null; // No User exists
 	}
 	
 	public User updateUser(final JsonNode userField) {
@@ -77,7 +97,7 @@ public class UserService {
 		final JsonNode pokemons = userJsonNode.get("pokemons");
 		final List<Pokemon> pokemonObjects = new ArrayList<>();
 		
-		for(JsonNode pokemon: pokemons) {
+		for(JsonNode pokemon : pokemons) {
 			final String pokemonJson = mapper.writeValueAsString(pokemon);
 			final Pokemon pokemonObj = mapper.readValue(pokemonJson, Pokemon.class);
 			pokemonObjects.add(pokemonObj);
@@ -108,11 +128,20 @@ public class UserService {
 	    return base64Encoder.encodeToString(randomBytes);
 	}
 	
-	// Responsible for saving to database
-	private boolean saveUser() {
-		boolean isSuccess = true;
+	/**
+	 * Used only for Develop/testing purpose. TODO: Delete this method when dev is done
+	 * @return User
+	 */
+	public User createTempUser() {
+		final String adminUser = "admin";
+		final String adminPassword = "testing1";
+		final String adminEmail = "fake@mail.com";
+		final int adminMoney = 100;
+		final ArrayList<Pokemon> pokemons = new ArrayList<>();
+		User user = new User(adminUser, adminPassword, adminEmail, adminMoney, pokemons);
+		user.setUserId(generateUserId());
 		
-		return isSuccess;
+		return user;
 	}
 	
 	// Builds user data to hand back

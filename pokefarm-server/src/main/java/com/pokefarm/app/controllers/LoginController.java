@@ -20,11 +20,11 @@ public class LoginController {
 	public ResponseEntity<User> getUserLogin(@RequestBody JsonNode credentials) {
 		final LoginService loginService = new LoginService();
 		final UserService userService = new UserService();
-		String userName = credentials.get("username").textValue();
+		String username = credentials.get("username").textValue();
 		String password = credentials.get("password").textValue();
-		// Deserialization user data
-		User user = userService.loadUser();
+		
+		// Deserialize user data
+		User user = userService.loadUser(username, password);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
-//		return loginService.buildResponse(userName, password);
 	}
 }
