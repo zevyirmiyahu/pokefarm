@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.annotations.VisibleForTesting;
 import com.pokefarm.app.constants.JsonConstants.JSON_KEYS;
 import com.pokefarm.app.constants.UserConstants.USER;
 import com.pokefarm.app.exceptions.UserCreationException;
@@ -56,8 +57,8 @@ public class UserService {
 		serialization.serializeUser(user);
 	}
 	
-	public User loadUser(final String username, final String password) {
-		final Serialization serialization = new Serialization();
+	public User loadUser(final String username, final String password, final Serialization serialization) {
+//		final Serialization serialization = new Serialization();
 		final HashMap<String, User> users = serialization.deserializeUserList();
 		return getUser(username, password, users);
 	}
@@ -121,7 +122,8 @@ public class UserService {
 	 * Generates a user Id to assign to account
 	 * @return userId
 	 */
-	private String generateUserId() {
+	@VisibleForTesting
+	public String generateUserId() {
 		final SecureRandom secureRandom = new SecureRandom(); // Thread safe
 		final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); // Thread safe
 		byte[] randomBytes = new byte[24];
