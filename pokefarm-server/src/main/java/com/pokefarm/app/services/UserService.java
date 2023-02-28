@@ -58,13 +58,13 @@ public class UserService {
 	}
 	
 	public User loadUser(final String username, final String password, final Serialization serialization) {
-//		final Serialization serialization = new Serialization();
+		// final Serialization serialization = new Serialization();
 		final HashMap<String, User> users = serialization.deserializeUserList();
 		return getUser(username, password, users);
 	}
 	
 	private User getUser(final String username, final String password, final HashMap<String, User> users) {
-		/**
+		/*
 		 * TODO: Delete this IF when done dev.
 		 * Temporary code for Dev purpose.
 		 * We create an admin user if none exist
@@ -124,9 +124,10 @@ public class UserService {
 	 */
 	@VisibleForTesting
 	public String generateUserId() {
+		final int size = 24;
 		final SecureRandom secureRandom = new SecureRandom(); // Thread safe
 		final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); // Thread safe
-		byte[] randomBytes = new byte[24];
+		byte[] randomBytes = new byte[size];
 	    secureRandom.nextBytes(randomBytes);
 	    
 	    return base64Encoder.encodeToString(randomBytes);

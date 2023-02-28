@@ -34,14 +34,15 @@ public class Serialization {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	public HashMap<String, User> deserializeUserList() {
 		try {
 			FileInputStream fileIn = new FileInputStream(SERIALIZATION.FILE_NAME);
 			final int numOfBytes = fileIn.available();
+			final int minFileSize = 8; 
 			
 			// File is empty if 8 or less bytes, EOFException -> if this input stream reaches the end before reading eight bytes.
-			if(numOfBytes > 8) {
+			if(numOfBytes > minFileSize) {
 				ObjectInputStream inputStream = new ObjectInputStream(fileIn);
 				// No users exist in user.ser, so return empty ArrayList to start process
 				final HashMap<String, User> users = (HashMap<String, User>) inputStream.readObject();

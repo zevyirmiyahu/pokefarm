@@ -10,7 +10,7 @@ import com.pokefarm.app.constants.GeneralConstants.STATUS;
 import com.pokefarm.app.constants.GeneralConstants.TOKENS;
 import com.pokefarm.app.pojos.Pokemon;
 import com.pokefarm.app.constants.JsonConstants.JSON_KEYS;
-import com.pokefarm.app.constants.GeneralConstants.RESPONSE;; 
+import com.pokefarm.app.constants.GeneralConstants.RESPONSE;
 
 public class LoginService {
 	// Dummy credentials
@@ -40,12 +40,13 @@ public class LoginService {
 	 * @return token
 	 */
 	public String generateToken(final String status) {
+		final int size = 24;
 		if (status.equals(STATUS.LOGIN_FAILURE)) {
 			return TOKENS.TOKEN_FAILURE; // login failure
 		}
 		final SecureRandom secureRandom = new SecureRandom(); // Thread safe
 		final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); // Thread safe
-		byte[] randomBytes = new byte[24];
+		byte[] randomBytes = new byte[size];
 	    secureRandom.nextBytes(randomBytes);
 	    
 	    return base64Encoder.encodeToString(randomBytes);

@@ -10,5 +10,4 @@ public class PokefarmServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PokefarmServerApplication.class, args);
 	}
-
 }

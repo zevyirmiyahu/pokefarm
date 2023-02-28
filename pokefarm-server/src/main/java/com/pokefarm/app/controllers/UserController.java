@@ -41,10 +41,10 @@ public class UserController {
 		try {
 			User user = userService.createUser(userjsonNode);
 			
-			/**
+			/*
 			 * TODO: Uncomment this emailService code if you'd like to receive an email. See README.md for directions
 			 */
-//			emailService.sendEmail(user.getEmail(), user.getUsername());
+			// emailService.sendEmail(user.getEmail(), user.getUsername());
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (UserCreationException userCreationException) {
 			final String errorMsg = "Exception occurred while trying to create a user";

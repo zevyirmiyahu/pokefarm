@@ -26,6 +26,7 @@ Coming soon...
     - Jackson
     - Log4j
     - Serialization
+    - CheckStyle: https://checkstyle.org/
     - JUnit
     - Mockito
 

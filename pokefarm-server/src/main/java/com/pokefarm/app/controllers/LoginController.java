@@ -22,7 +22,7 @@ public class LoginController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/login", consumes = {"text/plain", "application/*"})
 	public ResponseEntity<User> getUserLogin(@RequestBody JsonNode credentials) {
-//		final LoginService loginService = new LoginService();
+		// final LoginService loginService = new LoginService();
 		final Serialization serialization = new Serialization();
 		final UserService userService = new UserService();
 		String username = credentials.get("username").textValue();

@@ -33,6 +33,7 @@ public class UserServiceTests {
 	private static final String MONEY = "money";
 	private static final String POKEMONS = "pokemons";
 	
+	@SuppressWarnings("checkstyle:MagicNumber")
 	@Test
 	public void testCreateUser() throws UserCreationException {
 		// ARRANGE
@@ -92,7 +93,7 @@ public class UserServiceTests {
 		 
 	 	when(mockedSerialization.deserializeUserList()).thenReturn(buildUserList(currentUser, blueUser));
 		 
-		// ACT
+	 	// ACT
 	 	User userResult = userService.loadUser("Red", "abc123", mockedSerialization);
 		 
 		// ASSERT
