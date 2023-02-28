@@ -70,7 +70,12 @@ $pokemon-game-screen: "pokemon-game-screen";
   margin-right: auto;
   margin-top: auto;
   margin-bottom: auto;
-  height: 24rem;
+  height: 28rem;
   background-color: colors.$app-grey !important;
   color: colors.$app-white-1 !important;
+  width: 20rem;
+}
+
+.#{$pokemon-game-screen}-pokemon {
+  padding-right: 18px;
 }

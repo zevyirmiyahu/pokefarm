@@ -21,7 +21,6 @@ const handleCreateUser = (credentials, navigate, setUser) => {
   axios
     .post(`${BASE_URL}/create`, credentials)
     .then((response) => {
-      console.log(response.data);
       const { userId, username, password, email, pokemons } = response.data;
       const userObject = new UserObject(
         userId,

@@ -77,13 +77,17 @@ const MainToolContent = ({ user, setUser }) => {
           Pokemon Working
         </Typography>
         <Typography sx={{ mb: 1.5 }}>Click Pokemon to return home.</Typography>
-        <Stack spacing={2} direction="row">
+        <Stack
+          direction="row"
+          style={{ flexWrap: "wrap", justifyContent: "space-between" }}
+        >
           {user.pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
               return (
                 <div key={pokemon.uniqueId}>
                   <Pokemon
+                    className={`${BASE_STYLE}-pokemon`}
                     pokemonObject={pokemon}
                     isAnimated={false}
                     onClick={() => {

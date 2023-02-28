@@ -49,9 +49,8 @@ const Pokemon = ({ className, pokemonObject, onClick, isAnimated = true }) => {
   }, [pay]);
 
   return (
-    <>
+    <div className={className}>
       <Tooltip
-        className={className}
         title={getToolTipTitle(id, name, types, isWorking)}
         TransitionComponent={Zoom}
         placement="top"
@@ -70,7 +69,7 @@ const Pokemon = ({ className, pokemonObject, onClick, isAnimated = true }) => {
       {isWorking ? (
         <p className={`${BASE_STYLE}-payment`}>Payment: {pay ? pay : 0} ₱</p>
       ) : null}
-    </>
+    </div>
   );
 };
 

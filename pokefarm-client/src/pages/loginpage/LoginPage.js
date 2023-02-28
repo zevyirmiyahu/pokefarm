@@ -44,7 +44,7 @@ export const handleLogin = (credentials, navigate, setUser) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 
