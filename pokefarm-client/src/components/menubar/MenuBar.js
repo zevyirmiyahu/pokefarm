@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import ShopModal from "../modal/ShopModal";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
 
 /**
  *
@@ -21,9 +22,12 @@ import ShopModal from "../modal/ShopModal";
  * @param {*} user
  * @param {*} setUser
  */
-const handleLogout = (navigate, user, setUser) => {
+const handleLogout = (navigate, pokemons, user, setUser) => {
   axios
-    .post(`${BASE_URL}/${END_POINTS.SAVE_USER}`, user)
+    .post(`${BASE_URL}/${END_POINTS.SAVE_USER}`, {
+      ...user,
+      pokemons: pokemons,
+    })
     .then((response) => {
       setUser(null);
       navigate(ROUTES.LOGIN_IN);
@@ -36,10 +40,11 @@ const handleLogout = (navigate, user, setUser) => {
 const MenuBar = () => {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
+  const { pokemons } = usePokemons();
   const userId = user.userId;
   const username = user.username;
-  const pokemonCount = user.pokemons.length;
   const money = user.money;
+  const pokemonCount = pokemons.length;
 
   return (
     <>
@@ -70,7 +75,7 @@ const MenuBar = () => {
             <p style={{ marginLeft: "auto" }}>Account: {userId}</p>
             <Button
               id="profile-page-logout-button"
-              onClick={() => handleLogout(navigate, user, setUser)}
+              onClick={() => handleLogout(navigate, pokemons, user, setUser)}
               color="inherit"
             >
               Logout

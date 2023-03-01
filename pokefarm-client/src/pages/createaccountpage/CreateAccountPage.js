@@ -7,9 +7,10 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-
-import "./styles/createaccountpage.scss";
 import UserObject from "../../objects/UserObject";
+import PokemonObject from "../../objects/PokemonObject";
+import "./styles/createaccountpage.scss";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
 
 const BASE_STYLE = "create-account-page";
 
@@ -17,25 +18,32 @@ const BASE_STYLE = "create-account-page";
  * Takes users credentials and post request to backend
  * @param {{string, string}} credentials
  */
-const handleCreateUser = (credentials, navigate, setUser) => {
+const handleCreateUser = (credentials, navigate, setUser, setPokemons) => {
   axios
     .post(`${BASE_URL}/create`, credentials)
     .then((response) => {
       const { userId, username, password, email, pokemons } = response.data;
-      const userObject = new UserObject(
-        userId,
-        username,
-        password,
-        email,
-        0,
-        pokemons
-      );
+      const userObject = new UserObject(userId, username, password, email, 0);
       setUser(userObject);
+      setPokemons(buildPokemons(pokemons));
       navigate(`/${ROUTES.USER_ACCOUNT}`);
     })
     .catch((error) => {
       console.error(error);
     });
+};
+
+// unit test this
+const buildPokemons = (pokemons) => {
+  return pokemons.map((pokemon) => {
+    const pokemonObject = new PokemonObject(
+      pokemon.id,
+      pokemon.name,
+      pokemon.types,
+      pokemon.isWorking
+    );
+    return pokemonObject;
+  });
 };
 
 const createUserCredentials = (credentials, key, value) => {
@@ -45,6 +53,7 @@ const createUserCredentials = (credentials, key, value) => {
 const CreateAccountPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  const { setPokemons } = usePokemons();
   const userNameRef = useRef("");
   const passwordRef = useRef("");
   const confirmPasswordRef = useRef("");
@@ -114,7 +123,7 @@ const CreateAccountPage = () => {
           />
         </div>
         <Stack
-          id="create-account-page-button-stack"
+          sx={{ display: "table", margin: "auto" }}
           spacing={2}
           direction="row"
         >
@@ -139,7 +148,8 @@ const CreateAccountPage = () => {
                   pokemons: [],
                 },
                 navigate,
-                setUser
+                setUser,
+                setPokemons
               );
             }}
           >

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../routes/providers/AuthProvider";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
 import Pokemon from "../pokemon/Pokemon";
 import axios from "axios";
 import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
@@ -11,35 +12,38 @@ import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 import GameBackground from "./GameBackground";
 import { addPokemon } from "../../utils/Utils";
-
 import "./styles/gamescreen.scss";
 
 const BASE_STYLE = "pokemon-game-screen";
 
 // For choosing a pokemon to add to your farm.
-const handleSelectPokemon = (pokemon, user, setUser) => {
-  const userId = user.userId;
+const handleSelectPokemon = (userId, pokemon, setPokemons) => {
   const updatedPokemon = { userId, pokemons: [pokemon] };
   axios
     .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
-      setUser({ ...user, pokemons: addPokemon(pokemon, user.pokemons) }); // will change this once DB exists
+      setPokemons(addPokemon(pokemon));
     })
     .catch((error) => {
       console.error(error);
     });
 };
 
-const handleWorkStatus = (money, pokemon, user, setUser) => {
-  const updatedPokemon = { ...pokemon, isWorking: !pokemon.isWorking };
+const handleWorkStatus = (pokemon, pokemons, setPokemons, user, setUser) => {
+  const moneyEarned = pokemon.money;
+  const updatedPokemon = {
+    ...pokemon,
+    money: 0,
+    isWorking: !pokemon.isWorking,
+  };
   axios
     .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
       setUser({
         ...user,
-        money: user.money + money,
-        pokemons: addPokemon(updatedPokemon, user.pokemons),
-      }); // will change this once DB exists
+        money: user.money + moneyEarned,
+      });
+      setPokemons(addPokemon(updatedPokemon, pokemons));
     })
     .catch((error) => {
       console.error(error);
@@ -69,7 +73,7 @@ const StarterMessageContent = () => {
   );
 };
 
-const MainToolContent = ({ user, setUser }) => {
+const MainToolContent = ({ pokemons }) => {
   return (
     <Card className={`${BASE_STYLE}-main-tool-container`}>
       <CardContent>
@@ -81,7 +85,7 @@ const MainToolContent = ({ user, setUser }) => {
           direction="row"
           style={{ flexWrap: "wrap", justifyContent: "space-between" }}
         >
-          {user.pokemons
+          {pokemons
             .filter((pokemon) => pokemon.isWorking)
             .map((pokemon) => {
               return (
@@ -90,9 +94,6 @@ const MainToolContent = ({ user, setUser }) => {
                     className={`${BASE_STYLE}-pokemon`}
                     pokemonObject={pokemon}
                     isAnimated={false}
-                    onClick={() => {
-                      handleWorkStatus(0, pokemon, user, setUser);
-                    }}
                   />
                 </div>
               );
@@ -109,7 +110,9 @@ const MainToolContent = ({ user, setUser }) => {
  * Renders ONLY when user first creates account
  * @returns JSX
  */
-const StartContent = ({ user, setUser, pokemons }) => {
+const StartContent = () => {
+  const { user } = useAuth();
+  const { pokemons, setPokemons } = usePokemons();
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <StarterMessageContent />
@@ -122,15 +125,21 @@ const StartContent = ({ user, setUser, pokemons }) => {
         >
           <Pokemon
             pokemonObject={pokemons[0]}
-            onClick={() => handleSelectPokemon(pokemons[0], user, setUser)}
+            onClick={() =>
+              handleSelectPokemon(user.id, pokemons[0], setPokemons)
+            }
           />
           <Pokemon
             pokemonObject={pokemons[1]}
-            onClick={() => handleSelectPokemon(pokemons[1], user, setUser)}
+            onClick={() =>
+              handleSelectPokemon(user.id, pokemons[1], setPokemons)
+            }
           />
           <Pokemon
             pokemonObject={pokemons[2]}
-            onClick={() => handleSelectPokemon(pokemons[2], user, setUser)}
+            onClick={() =>
+              handleSelectPokemon(user.id, pokemons[2], setPokemons)
+            }
           />
         </Stack>
       </div>
@@ -143,12 +152,14 @@ const StartContent = ({ user, setUser, pokemons }) => {
  * Content during main play
  * @returns JSX
  */
-const MainContent = ({ user, setUser }) => {
-  let firstRowPokemons = user.pokemons;
+const MainContent = () => {
+  const { user, setUser } = useAuth();
+  const { pokemons, setPokemons } = usePokemons();
+  let firstRowPokemons = pokemons;
   let secondRowPokemons = [];
-  if (user.pokemons.length > 4) {
-    firstRowPokemons = user.pokemons.slice(0, 4);
-    secondRowPokemons = user.pokemons.slice(4, user.pokemons.length);
+  if (pokemons.length > 4) {
+    firstRowPokemons = pokemons.slice(0, 4);
+    secondRowPokemons = pokemons.slice(4, pokemons.length);
   }
 
   return (
@@ -163,11 +174,20 @@ const MainContent = ({ user, setUser }) => {
           {firstRowPokemons
             .filter((pokemon) => !pokemon.isWorking)
             .map((pokemon) => {
+              const uniqueId = pokemon.uniqueId;
               return (
                 <Pokemon
-                  key={pokemon.uniqueId}
+                  key={uniqueId}
                   pokemonObject={pokemon}
-                  onClick={() => handleWorkStatus(0, pokemon, user, setUser)}
+                  onClick={() =>
+                    handleWorkStatus(
+                      pokemon,
+                      pokemons,
+                      setPokemons,
+                      user,
+                      setUser
+                    )
+                  }
                 />
               );
             })}
@@ -184,13 +204,26 @@ const MainContent = ({ user, setUser }) => {
                 <Pokemon
                   key={pokemon.uniqueId}
                   pokemonObject={pokemon}
-                  onClick={() => handleWorkStatus(0, pokemon, user, setUser)}
+                  onClick={() =>
+                    handleWorkStatus(
+                      pokemon,
+                      pokemons,
+                      setPokemons,
+                      user,
+                      setUser
+                    )
+                  }
                 />
               );
             })}
         </Stack>
       </div>
-      <MainToolContent user={user} setUser={setUser} />
+      <MainToolContent
+        user={user}
+        setUser={setUser}
+        pokemons={pokemons}
+        setPokemons={setPokemons}
+      />
     </div>
   );
 };
@@ -202,8 +235,7 @@ const MainContent = ({ user, setUser }) => {
  * @returns
  */
 const GameScreen = ({ isStarterSelection }) => {
-  const { user, setUser } = useAuth();
-  const [pokemons, setPokemons] = useState();
+  const { setPokemons } = usePokemons();
   const [isLoading, setIsLoading] = useState(true);
 
   // Starter Pokemon
@@ -229,33 +261,15 @@ const GameScreen = ({ isStarterSelection }) => {
   }
 
   if (isStarterSelection) {
-    return <StartContent user={user} setUser={setUser} pokemons={pokemons} />;
+    return <StartContent />;
   } else {
-    return <MainContent user={user} setUser={setUser} />;
+    return <MainContent />;
   }
 };
 
-StartContent.propTypes = {
-  /**
-   * User object held in state
-   */
-  user: PropTypes.object.isRequired,
-  /**
-   * Setter function for user state
-   */
-  setUser: PropTypes.func.isRequired,
-};
+StartContent.propTypes = {};
 
-MainContent.propTypes = {
-  /**
-   * User object held in state
-   */
-  user: PropTypes.object.isRequired,
-  /**
-   * Setter function for user state
-   */
-  setUser: PropTypes.func.isRequired,
-};
+MainContent.propTypes = {};
 
 GameScreen.propTypes = {
   /**

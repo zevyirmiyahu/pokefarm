@@ -1,12 +1,43 @@
 import React, { useState, useEffect } from "react";
 import PokemonImage from "./PokemonImage";
-import { SPRITE_SIZE } from "../../constants/AppConstants";
+import axios from "axios";
+import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import Button from "@mui/material/Button";
+import { addPokemon } from "../../utils/Utils";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
+import { useAuth } from "../../routes/providers/AuthProvider";
 import "./styles/pokemon.scss";
 
 const BASE_STYLE = "pokemon";
+
+const handleWorkStatus = (
+  pay,
+  pokemon,
+  pokemons,
+  setPokemons,
+  user,
+  setUser
+) => {
+  const updatedPokemon = {
+    ...pokemon,
+    money: 0,
+    isWorking: !pokemon.isWorking,
+  };
+  axios
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
+    .then((response) => {
+      setUser({
+        ...user,
+        money: user.money + pay,
+      }); // will change this once DB exists
+      setPokemons(addPokemon(updatedPokemon, pokemons));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 const getToolTipTitle = (id, name, types, isWorking) => {
   if (types.length === 2) {
@@ -33,7 +64,15 @@ const getToolTipTitle = (id, name, types, isWorking) => {
   );
 };
 
-const Pokemon = ({ className, pokemonObject, onClick, isAnimated = true }) => {
+const Pokemon = ({
+  className,
+  optionalWidth,
+  onClick,
+  pokemonObject,
+  isAnimated = true,
+}) => {
+  const { pokemons, setPokemons } = usePokemons();
+  const { user, setUser } = useAuth();
   const { id, name, types, isWorking } = pokemonObject;
   const [pay, setPay] = useState(null);
 
@@ -57,12 +96,23 @@ const Pokemon = ({ className, pokemonObject, onClick, isAnimated = true }) => {
         arrow
       >
         <div>
-          <Button variant="text" onClick={onClick}>
-            <PokemonImage
-              pokemonId={id}
-              width={SPRITE_SIZE}
-              isAnimated={isAnimated}
-            />
+          <Button
+            variant="text"
+            onClick={
+              onClick
+                ? onClick
+                : () =>
+                    handleWorkStatus(
+                      pay,
+                      pokemonObject,
+                      pokemons,
+                      setPokemons,
+                      user,
+                      setUser
+                    )
+            }
+          >
+            <PokemonImage pokemonId={id} isAnimated={isAnimated} />
           </Button>
         </div>
       </Tooltip>

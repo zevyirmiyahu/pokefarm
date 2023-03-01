@@ -7,6 +7,7 @@ import {
   END_POINTS,
 } from "../../constants/AppConstants";
 import { useAuth } from "../../routes/providers/AuthProvider";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
 import axios from "axios";
 import Banner from "../../components/banners/Banner";
 import Box from "@mui/material/Box";
@@ -22,7 +23,7 @@ const BASE_STYLE = "login-page";
  * Takes users credentials and post request backend
  * @param {{string, string}} credentials
  */
-export const handleLogin = (credentials, navigate, setUser) => {
+export const handleLogin = (credentials, navigate, setUser, setPokemons) => {
   axios
     .post(`${BASE_URL}/${END_POINTS.LOGIN}`, credentials)
     .then((response) => {
@@ -34,10 +35,10 @@ export const handleLogin = (credentials, navigate, setUser) => {
           username,
           password,
           email,
-          money,
-          pokemons
+          money
         );
         setUser(userObject);
+        setPokemons(pokemons);
         navigate(ROUTES.USER_ACCOUNT);
       } else {
         throw new Error("Login failed with status: " + response.status);
@@ -51,6 +52,7 @@ export const handleLogin = (credentials, navigate, setUser) => {
 const LoginPage = () => {
   const navigate = useNavigate();
   const { setUser } = useAuth();
+  const { setPokemons } = usePokemons();
   const userNameRef = useRef("");
   const passwordRef = useRef("");
 
@@ -58,7 +60,7 @@ const LoginPage = () => {
     const username = userNameRef.current.value;
     const password = passwordRef.current.value;
     e.preventDefault();
-    handleLogin({ username, password }, navigate, setUser);
+    handleLogin({ username, password }, navigate, setUser, setPokemons);
   };
 
   const SignInForm = () => {
@@ -90,7 +92,11 @@ const LoginPage = () => {
             inputRef={passwordRef}
           />
         </div>
-        <Stack id="login-page-button-stack" spacing={2} direction="row">
+        <Stack
+          sx={{ display: "table", margin: "auto" }}
+          spacing={2}
+          direction="row"
+        >
           <Button
             variant="text"
             onClick={() => {

@@ -10,15 +10,17 @@ public class Pokemon implements Serializable {
 	private String id;
 	private String name;
 	private String[] types;
+	private int money;
 	private boolean isWorking;
 	
 	public Pokemon() {}
 	
-	public Pokemon(@JsonProperty("uniqueId") final String uniqueId, @JsonProperty("id") final String id, @JsonProperty("name") final String name, @JsonProperty("types") final String[] types, @JsonProperty("isWorking") final boolean isWorking) {
+	public Pokemon(@JsonProperty("uniqueId") final String uniqueId, @JsonProperty("id") final String id, @JsonProperty("name") final String name, @JsonProperty("types") final String[] types,@JsonProperty("money") final int money, @JsonProperty("isWorking") final boolean isWorking) {
 		this.uniqueId = uniqueId;
 		this.id = id;
 		this.name = name;
 		this.types = types;
+		this.money = money;
 		this.isWorking = isWorking;
 	}
 
@@ -34,6 +36,10 @@ public class Pokemon implements Serializable {
 		return name;
 	}
 
+	public int getMoney() {
+		return money;
+	}
+	
 	public String[] getTypes() {
 		return types;
 	}
@@ -54,7 +60,10 @@ public class Pokemon implements Serializable {
 	public void setName(final String name) {
 		this.name = name;
 	}
-
+	
+	public void setMoney(final int money) {
+		this.money = money;
+	}
 
 	public void setTypes(final String[] types) {
 		this.types = types;

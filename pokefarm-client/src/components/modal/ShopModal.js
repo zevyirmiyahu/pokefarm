@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../routes/providers/AuthProvider";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
@@ -12,6 +11,7 @@ import { addPokemon } from "../../utils/Utils";
 import { generateRandomNumber } from "../../utils/Utils";
 // import "./styles/shopmodal.css";
 import "./styles/shopmodal.scss";
+import { usePokemons } from "../../routes/providers/PokemonProvider";
 
 const style = {
   position: "absolute",
@@ -33,8 +33,8 @@ const BASE_STYLE = "shop-modal";
  * @component
  */
 const ShopModal = () => {
-  const { user, setUser } = useAuth();
-  const [pokemons, setPokemons] = useState();
+  const { pokemons, setPokemons } = usePokemons();
+  const [localPokemons, setLocalPokemons] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   // Modal
@@ -49,14 +49,14 @@ const ShopModal = () => {
         generateRandomNumber(1, 600),
         generateRandomNumber(1, 600),
       ],
-      setPokemons
+      setLocalPokemons
     ).finally(() => {
       setIsLoading(false);
     });
   }, [open]);
 
-  const handlePurchase = (pokemon, user, setUser) => {
-    setUser({ ...user, pokemons: addPokemon(pokemon, user.pokemons) });
+  const handlePurchase = (localPokemon, pokemons) => {
+    setPokemons(addPokemon(localPokemon, pokemons));
   };
 
   if (isLoading) {
@@ -90,33 +90,33 @@ const ShopModal = () => {
           </Typography>
           <Stack spacing={2} direction="row">
             <div className={`${BASE_STYLE}-pokemon-container`}>
-              <h3>{pokemons[0].name}</h3>
+              <h3>{localPokemons[0].name}</h3>
               <p>
                 <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
               </p>
               <Pokemon
-                pokemonObject={pokemons[0]}
-                onClick={() => handlePurchase(pokemons[0], user, setUser)}
+                pokemonObject={localPokemons[0]}
+                onClick={() => handlePurchase(localPokemons[0], pokemons)}
               />
             </div>
             <div className={`${BASE_STYLE}-pokemon-container`}>
-              <h3>{pokemons[1].name}</h3>
+              <h3>{localPokemons[1].name}</h3>
               <p>
                 <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
               </p>
               <Pokemon
-                pokemonObject={pokemons[1]}
-                onClick={() => handlePurchase(pokemons[1], user, setUser)}
+                pokemonObject={localPokemons[1]}
+                onClick={() => handlePurchase(localPokemons[1], pokemons)}
               />
             </div>
             <div className={`${BASE_STYLE}-pokemon-container`}>
-              <h3>{pokemons[2].name}</h3>
+              <h3>{localPokemons[2].name}</h3>
               <p>
                 <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
               </p>
               <Pokemon
-                pokemonObject={pokemons[2]}
-                onClick={() => handlePurchase(pokemons[2], user, setUser)}
+                pokemonObject={localPokemons[2]}
+                onClick={() => handlePurchase(localPokemons[2], pokemons)}
               />
             </div>
           </Stack>

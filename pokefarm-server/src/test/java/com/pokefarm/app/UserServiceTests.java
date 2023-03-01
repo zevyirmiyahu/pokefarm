@@ -33,7 +33,6 @@ public class UserServiceTests {
 	private static final String MONEY = "money";
 	private static final String POKEMONS = "pokemons";
 	
-	@SuppressWarnings("checkstyle:MagicNumber")
 	@Test
 	public void testCreateUser() throws UserCreationException {
 		// ARRANGE
@@ -129,8 +128,8 @@ public class UserServiceTests {
 	
 	private ArrayList<Pokemon> buildPokemonList() {
 		final ArrayList<Pokemon> pokemons = new ArrayList<Pokemon>();
-		final Pokemon chikorita = new Pokemon("chikorita123", "152", "Chikorita", new String[] {"grass"}, false);
-		final Pokemon magikarp = new Pokemon("magikarp123", "129", "Magikarp", new String[] {"water"}, true);
+		final Pokemon chikorita = new Pokemon("chikorita123", "152", "Chikorita", new String[] {"grass"}, 0, false);
+		final Pokemon magikarp = new Pokemon("magikarp123", "129", "Magikarp", new String[] {"water"}, 0, true);
 		pokemons.add(chikorita);
 		pokemons.add(magikarp);
 		
