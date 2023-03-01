@@ -29,7 +29,17 @@ const handleSelectPokemon = (userId, pokemon, setPokemons) => {
     });
 };
 
+// TODO: Remove this has been moved to Pokemon component
 const handleWorkStatus = (pokemon, pokemons, setPokemons, user, setUser) => {
+  // limit work to ONLY 4 pokemon at a time
+  const totalWorking = pokemons.filter(
+    (pokemon) => pokemon.isWorking === true
+  ).length;
+
+  if (totalWorking >= 4) {
+    return;
+  }
+
   const moneyEarned = pokemon.money;
   const updatedPokemon = {
     ...pokemon,
@@ -175,21 +185,7 @@ const MainContent = () => {
             .filter((pokemon) => !pokemon.isWorking)
             .map((pokemon) => {
               const uniqueId = pokemon.uniqueId;
-              return (
-                <Pokemon
-                  key={uniqueId}
-                  pokemonObject={pokemon}
-                  onClick={() =>
-                    handleWorkStatus(
-                      pokemon,
-                      pokemons,
-                      setPokemons,
-                      user,
-                      setUser
-                    )
-                  }
-                />
-              );
+              return <Pokemon key={uniqueId} pokemonObject={pokemon} />;
             })}
         </Stack>
         <Stack
@@ -200,21 +196,8 @@ const MainContent = () => {
           {secondRowPokemons
             .filter((pokemon) => !pokemon.isWorking)
             .map((pokemon) => {
-              return (
-                <Pokemon
-                  key={pokemon.uniqueId}
-                  pokemonObject={pokemon}
-                  onClick={() =>
-                    handleWorkStatus(
-                      pokemon,
-                      pokemons,
-                      setPokemons,
-                      user,
-                      setUser
-                    )
-                  }
-                />
-              );
+              const uniqueId = pokemon.uniqueId;
+              return <Pokemon key={uniqueId} pokemonObject={pokemon} />;
             })}
         </Stack>
       </div>

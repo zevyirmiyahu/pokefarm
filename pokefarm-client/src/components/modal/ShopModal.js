@@ -9,8 +9,10 @@ import Pokeball from "../../assets/pokeball.png";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
 import { addPokemon } from "../../utils/Utils";
 import { generateRandomNumber } from "../../utils/Utils";
+import { ACTIONS } from "../../constants/AppConstants";
 // import "./styles/shopmodal.css";
 import "./styles/shopmodal.scss";
+import { useAuth } from "../../routes/providers/AuthProvider";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
 
 const style = {
@@ -33,6 +35,7 @@ const BASE_STYLE = "shop-modal";
  * @component
  */
 const ShopModal = () => {
+  const { user, setUser } = useAuth();
   const { pokemons, setPokemons } = usePokemons();
   const [localPokemons, setLocalPokemons] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -55,13 +58,23 @@ const ShopModal = () => {
     });
   }, [open]);
 
-  const handlePurchase = (localPokemon, pokemons) => {
-    setPokemons(addPokemon(localPokemon, pokemons));
+  const handlePurchase = (price, localPokemon, pokemons) => {
+    // Purchasing logic
+    if (user.money >= price && pokemons.length <= 8) {
+      setUser({ ...user, money: user.money - price });
+      setPokemons(addPokemon(localPokemon, pokemons));
+      return true;
+    }
+    return false;
   };
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  const pokemonPrice1 = generateRandomNumber(50, 130);
+  const pokemonPrice2 = generateRandomNumber(50, 130);
+  const pokemonPrice3 = generateRandomNumber(50, 130);
 
   return (
     <>
@@ -92,31 +105,52 @@ const ShopModal = () => {
             <div className={`${BASE_STYLE}-pokemon-container`}>
               <h3>{localPokemons[0].name}</h3>
               <p>
-                <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
+                <b>Cost:</b> {pokemonPrice1} ₱
               </p>
               <Pokemon
                 pokemonObject={localPokemons[0]}
-                onClick={() => handlePurchase(localPokemons[0], pokemons)}
+                onPurchase={() => {
+                  const isBought = handlePurchase(
+                    pokemonPrice1,
+                    localPokemons[0],
+                    pokemons
+                  );
+                  return isBought;
+                }}
               />
             </div>
             <div className={`${BASE_STYLE}-pokemon-container`}>
               <h3>{localPokemons[1].name}</h3>
               <p>
-                <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
+                <b>Cost:</b> {pokemonPrice2} ₱
               </p>
               <Pokemon
                 pokemonObject={localPokemons[1]}
-                onClick={() => handlePurchase(localPokemons[1], pokemons)}
+                onPurchase={() => {
+                  const isBought = handlePurchase(
+                    pokemonPrice2,
+                    localPokemons[1],
+                    pokemons
+                  );
+                  return isBought;
+                }}
               />
             </div>
             <div className={`${BASE_STYLE}-pokemon-container`}>
               <h3>{localPokemons[2].name}</h3>
               <p>
-                <b>Cost:</b> {generateRandomNumber(15, 65)} ₱
+                <b>Cost:</b> {pokemonPrice3} ₱
               </p>
               <Pokemon
                 pokemonObject={localPokemons[2]}
-                onClick={() => handlePurchase(localPokemons[2], pokemons)}
+                onPurchase={() => {
+                  const isBought = handlePurchase(
+                    pokemonPrice3,
+                    localPokemons[2],
+                    pokemons
+                  );
+                  return isBought;
+                }}
               />
             </div>
           </Stack>

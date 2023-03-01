@@ -20,6 +20,15 @@ const handleWorkStatus = (
   user,
   setUser
 ) => {
+  // limit work to ONLY 4 pokemon at a time
+  const totalWorking = pokemons.filter(
+    (pokemon) => pokemon.isWorking === true
+  ).length;
+
+  if (totalWorking >= 4 && pokemon.isWorking === false) {
+    return;
+  }
+
   const updatedPokemon = {
     ...pokemon,
     money: 0,
@@ -66,15 +75,15 @@ const getToolTipTitle = (id, name, types, isWorking) => {
 
 const Pokemon = ({
   className,
-  optionalWidth,
-  onClick,
+  onPurchase,
   pokemonObject,
   isAnimated = true,
 }) => {
   const { pokemons, setPokemons } = usePokemons();
   const { user, setUser } = useAuth();
-  const { id, name, types, isWorking } = pokemonObject;
   const [pay, setPay] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+  const { id, name, types, isWorking } = pokemonObject;
 
   useEffect(() => {
     if (isWorking) {
@@ -97,10 +106,14 @@ const Pokemon = ({
       >
         <div>
           <Button
+            disabled={disabled}
             variant="text"
             onClick={
-              onClick
-                ? onClick
+              onPurchase
+                ? () => {
+                    const isBought = onPurchase();
+                    setDisabled(isBought);
+                  }
                 : () =>
                     handleWorkStatus(
                       pay,
@@ -112,7 +125,11 @@ const Pokemon = ({
                     )
             }
           >
-            <PokemonImage pokemonId={id} isAnimated={isAnimated} />
+            {disabled ? (
+              <p>Bought</p>
+            ) : (
+              <PokemonImage pokemonId={id} isAnimated={isAnimated} />
+            )}
           </Button>
         </div>
       </Tooltip>
