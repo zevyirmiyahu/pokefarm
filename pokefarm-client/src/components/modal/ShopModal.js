@@ -9,11 +9,9 @@ import Pokeball from "../../assets/pokeball.png";
 import { getMultiPokemonData } from "../../apis/PokemonAPI";
 import { addPokemon } from "../../utils/Utils";
 import { generateRandomNumber } from "../../utils/Utils";
-import { ACTIONS } from "../../constants/AppConstants";
-// import "./styles/shopmodal.css";
-import "./styles/shopmodal.scss";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
+import "./styles/shopmodal.scss";
 
 const style = {
   position: "absolute",
