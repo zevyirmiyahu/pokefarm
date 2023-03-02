@@ -1,6 +1,8 @@
 package com.pokefarm.app;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -34,7 +36,7 @@ public class UserServiceTests {
 	private static final String POKEMONS = "pokemons";
 	
 	@Test
-	public void testCreateUser() throws UserCreationException {
+	public void test_createUser() throws UserCreationException {
 		// ARRANGE
 		final UserService userService = new UserService();
 		JsonNode userJsonNode = buildUserJsonNode("Red", "abc123", "fake@mail.com", 1000, new ArrayList<Pokemon>()); 
@@ -51,7 +53,7 @@ public class UserServiceTests {
 	}
 	
 	@Test
-	public void testCreateUser_withPokemons() throws UserCreationException {
+	public void test_createUser_withPokemons() throws UserCreationException {
 		// ARRANGE
 		final UserService userService = new UserService();
 		final ArrayList<Pokemon> pokemons = buildPokemonList();
@@ -79,12 +81,10 @@ public class UserServiceTests {
 	}
 	
 	@Test
-	public void testLoadUser_CallsDeserializeUserList() {
+	public void test_loadUser_callsDeserializeUserList() {
 		// ARRANGE
 		mockedSerialization = mock(Serialization.class);
 		final UserService userService = new UserService();
-		final String blueUserId = userService.generateUserId();
-	 	final String redUserId = userService.generateUserId();
 	 	final User currentUser = new User("Red", "abc123", "fake1@mail.com", 1000, new ArrayList<Pokemon>());
 	 	final User blueUser = new User("Blue", "123abc", "fake2@mail.com", 0, new ArrayList<Pokemon>());
 	 	currentUser.setUserId(userService.generateUserId());
@@ -101,6 +101,22 @@ public class UserServiceTests {
 		assertEquals(currentUser.getUsername(), userResult.getUsername());
 		assertEquals(currentUser.getPassword(), userResult.getPassword());
 		assertEquals(currentUser.getEmail(), userResult.getEmail());
+	}
+	
+	@Test
+	public void test_saveUser_callSerialization() {
+		// ARRANGE
+		mockedSerialization = mock(Serialization.class);
+		final UserService userService = new UserService();
+	 	final User user = new User("Red", "abc123", "fake1@mail.com", 1000, new ArrayList<Pokemon>());
+	 	
+	 	doNothing().when(mockedSerialization).serializeUser(any());
+	 	
+		// ACT
+	 	userService.saveUser(user, mockedSerialization);
+	 	
+		// ASSERT
+		verify(mockedSerialization, times(1)).serializeUser(user);
 	}
 	
 	private HashMap<String, User> buildUserList(User... users) {

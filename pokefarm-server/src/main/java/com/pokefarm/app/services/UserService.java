@@ -49,16 +49,14 @@ public class UserService {
 	}
 	
 	/**
-	 * Temporary way to save user data using serialization
+	 * Save user data using serialization
 	 * @param user
 	 */
-	public void saveUser(User user) {
-		final Serialization serialization = new Serialization();
+	public void saveUser(User user, final Serialization serialization) {
 		serialization.serializeUser(user);
 	}
 	
 	public User loadUser(final String username, final String password, final Serialization serialization) {
-		// final Serialization serialization = new Serialization();
 		final HashMap<String, User> users = serialization.deserializeUserList();
 		return getUser(username, password, users);
 	}
