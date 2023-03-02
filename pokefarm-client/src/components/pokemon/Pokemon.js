@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import PokemonImage from "./PokemonImage";
 import axios from "axios";
 import { BASE_URL, END_POINTS } from "../../constants/AppConstants";
@@ -9,6 +10,7 @@ import { addPokemon } from "../../utils/Utils";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import "./styles/pokemon.scss";
+import PokemonObject from "../../objects/PokemonObject";
 
 const BASE_STYLE = "pokemon";
 
@@ -138,6 +140,28 @@ const Pokemon = ({
       ) : null}
     </div>
   );
+};
+
+Pokemon.propType = {
+  /**
+   * Custom style class
+   */
+  className: PropTypes.string,
+
+  /**
+   * Function used to purchasing a pokemon
+   */
+  onPurchase: PropTypes.func,
+
+  /**
+   * PokemonObject used to build data in the component
+   */
+  pokemonObject: PropTypes.objectOf(PokemonObject).isRequired,
+
+  /**
+   * Determines is the sprite is an animated one or not
+   */
+  isAnimated: PropTypes.bool,
 };
 
 export default Pokemon;

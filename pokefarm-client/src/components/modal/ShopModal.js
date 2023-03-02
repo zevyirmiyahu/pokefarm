@@ -158,4 +158,6 @@ const ShopModal = () => {
   );
 };
 
+ShopModal.prototype = {};
+
 export default ShopModal;

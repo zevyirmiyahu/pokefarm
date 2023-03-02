@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
 import Pokemon from "../pokemon/Pokemon";
@@ -9,7 +10,6 @@ import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import PropTypes from "prop-types";
 import GameBackground from "./GameBackground";
 import { addPokemon } from "../../utils/Utils";
 import "./styles/gamescreen.scss";

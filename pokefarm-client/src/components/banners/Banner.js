@@ -13,4 +13,7 @@ const Banner = () => {
     />
   );
 };
+
+Banner.propTypes = {};
+
 export default Banner;

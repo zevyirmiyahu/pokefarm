@@ -15,6 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import ShopModal from "../modal/ShopModal";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
+import { Menu } from "@mui/material";
 
 /**
  *
@@ -86,5 +87,7 @@ const MenuBar = () => {
     </>
   );
 };
+
+Menu.PropTypes = {};
 
 export default MenuBar;

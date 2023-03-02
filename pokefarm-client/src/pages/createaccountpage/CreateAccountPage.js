@@ -9,8 +9,8 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import UserObject from "../../objects/UserObject";
 import PokemonObject from "../../objects/PokemonObject";
-import "./styles/createaccountpage.scss";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
+import "./styles/createaccountpage.scss";
 
 const BASE_STYLE = "create-account-page";
 
@@ -166,5 +166,7 @@ const CreateAccountPage = () => {
     </div>
   );
 };
+
+CreateAccountPage.propTypes = {};
 
 export default CreateAccountPage;

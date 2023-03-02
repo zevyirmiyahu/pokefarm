@@ -3,7 +3,6 @@ import { useAuth } from "../../routes/providers/AuthProvider";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
 import MenuBar from "../../components/menubar/MenuBar";
 import GameScreen from "../../components/gamescreen/GameScreen";
-
 import "./styles/profilepage.css";
 
 const ProfilePage = () => {
@@ -20,5 +19,7 @@ const ProfilePage = () => {
     );
   }
 };
+
+ProfilePage.propTypes = {};
 
 export default ProfilePage;
