@@ -19,7 +19,7 @@ PokemonImage.propTypes = {
   /**
    * Id number of the pokemon to image to use
    */
-  pokemonId: PropTypes.number.isRequired,
+  pokemonId: PropTypes.string.isRequired,
   /**
    * Determines if image should be the animated sprite (gif) or not.
    */

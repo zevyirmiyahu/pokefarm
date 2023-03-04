@@ -18,13 +18,14 @@ Coming soon...
 - **Axios:** https://axios-http.com/
 - **Sass:** https://sass-lang.com/
 - **Jest:** https://jestjs.io/
-- **Prettier:**
+- **Prettier:** https://prettier.io/
 ### **Backend**
 - **Java**
     - Spring: https://spring.io/ 
     - JavaMail API + Spring JavaMailSender: [Docs](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/mail/javamail/JavaMailSender.html)
     - Guava
     - Jackson
+    - Lombok: https://projectlombok.org/
     - Log4j2
     - Serialization
     - CheckStyle: https://checkstyle.org/
@@ -55,9 +56,17 @@ Instructions for running this web app locally.
 3. Config checkstyle in Eclipse:
     - In Eclipse go to "Help" ⮕ "Eclipse MarketPlace..." Then search for CheckStyle Plugin and install.
     - Update pom.xml to match plugin checkstyle version (currently this project is using Checkstyle 10.4)
-4. Start frontend code ⮕ open pokefarm-client in VS code and in the terminal run: ```npm start```
-5. Start backend code ⮕ using Spring Tool Suite, open pokefarm-server and click the run button.
-6. Open a browser and go to: ```http://localhost:3000/``` **Play & Enjoy!** 
+4. Configure lombok, which is a utility annotations library, but needs to be configured in an IDE, so
+some of the annotations and utility methods can be recognized. 
+    - 1. Open pokefarm-server in Sping Tool Suite
+    - 2. Unde Maven Dependencies, find **lombok.jar** and right click it and select "Run As" ⮕ "Java Application"
+    - 3. Specifiy the location of Spring Tools Suite and click install in the prompt
+    - 4. Close Spring Tool Suite and reopen, refresh project & rebuild.
+    - 5. Check to See if Lombok is installed in About Spring Tools Suite Dialog
+        - 📚 Further Reference: [Lombok Spring Tool Suite Installation](https://stackoverflow.com/questions/52780535/lombok-with-spring-tool-suite-4)
+5. Start frontend code ⮕ open pokefarm-client in VS code and in the terminal run: ```npm start```
+6. Start backend code ⮕ using Spring Tool Suite, open pokefarm-server and click the run button.
+7. Open a browser and go to: ```http://localhost:3000/``` **Play & Enjoy!** 
 
 <br/>
 
