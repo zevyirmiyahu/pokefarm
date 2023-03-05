@@ -68,15 +68,13 @@ some of the annotations and utility methods can be recognized.
 6. Start the MySQl server locally.
     - Personally, I recommend adding the following **alias** to the ```.bash_profile```
     <br/>
-        ```alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"```
-        <br/>
-        ```alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"```
-        <br/>
-        ```alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"```
-        <br/>
-        ```alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"```
-        <br/>
-        ```alias mysql.login="mysql -u root -p"```
+        ```
+        alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
+        alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
+        alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"
+        alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"
+        alias mysql.login="mysql -u root -p"
+        ```
 7. In the terminal of mysql> server, run the following: 
     ```
     CREATE DATABASE pokefarm;
