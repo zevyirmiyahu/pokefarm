@@ -67,7 +67,6 @@ some of the annotations and utility methods can be recognized.
 5. Setup MySQL by following: https://www.prisma.io/dataguide/mysql/setting-up-a-local-mysql-database 
 6. Start the MySQl server locally.
     - Personally, I recommend adding the following **alias** to the ```.bash_profile```
-    <br/>
         ```
         alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"
         alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"
