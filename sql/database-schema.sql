@@ -1,4 +1,5 @@
 -- Directions run the following in the order given in mysql> 
+-- This creates the database and user needed for the Application to work.
 
 CREATE DATABASE pokefarm; -- Create the database
 

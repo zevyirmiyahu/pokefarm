@@ -32,7 +32,7 @@ Coming soon...
     - JUnit5
     - Mockito
 
-- **SQL**
+- **MySQL**
 
 <br/>
 
@@ -64,9 +64,53 @@ some of the annotations and utility methods can be recognized.
     - 4. Close Spring Tool Suite and reopen, refresh project & rebuild.
     - 5. Check to See if Lombok is installed in About Spring Tools Suite Dialog
         - 📚 Further Reference: [Lombok Spring Tool Suite Installation](https://stackoverflow.com/questions/52780535/lombok-with-spring-tool-suite-4)
-5. Start frontend code ⮕ open pokefarm-client in VS code and in the terminal run: ```npm start```
-6. Start backend code ⮕ using Spring Tool Suite, open pokefarm-server and click the run button.
-7. Open a browser and go to: ```http://localhost:3000/``` **Play & Enjoy!** 
+5. Setup MySQL by following: https://www.prisma.io/dataguide/mysql/setting-up-a-local-mysql-database 
+6. Start the MySQl server locally.
+    - Personally, I recommend adding the following **alias** to the ```.bash_profile```
+    <br/>
+        ```alias mysql.start="sudo /usr/local/mysql/support-files/mysql.server start"```
+        <br/>
+        ```alias mysql.stop="sudo /usr/local/mysql/support-files/mysql.server stop"```
+        <br/>
+        ```alias mysql.restart="sudo /usr/local/mysql/support-files/mysql.server restart"```
+        <br/>
+        ```alias mysql.status="sudo /usr/local/mysql/support-files/mysql.server status"```
+        <br/>
+        ```alias mysql.login="mysql -u root -p"```
+7. In the terminal of mysql> server, run the following: 
+    ```
+    CREATE DATABASE pokefarm;
+    ```
+    ```
+    USE pokefarm;
+    ```
+    ```
+    CREATE TABLE users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id VARCHAR(255),
+        user_name VARCHAR(255),
+        password VARCHAR(255),
+        email VARCHAR(255),
+        money INT CHECK (money >= 0),
+        pokemons JSON
+    );
+    ```
+    Next we need to create a user that our application is already configured up to use.
+    ```
+    CREATE USER 'developer'@'localhost' IDENTIFIED BY 'StupidPassword';
+    ```
+    And we need to grant the the appropriate priveleges for our pokefarm database.
+    ```
+    GRANT ALL PRIVILEGES ON pokefarm.* TO 'developer'@'localhost';
+    ```
+    Now, reload the changed privileges into memory with:
+    ```
+    FLUSH PRIVILEGES;
+    ```
+
+8. Start frontend code ⮕ open pokefarm-client in VS code and in the terminal run: ```npm start```
+9. Start backend code ⮕ using Spring Tool Suite, open pokefarm-server and click the run button.
+10. Open a browser and go to: ```http://localhost:3000/``` **Play & Enjoy!** 
 
 <br/>
 
