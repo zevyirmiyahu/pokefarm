@@ -1,9 +1,9 @@
 package com.pokefarm.app.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.pokefarm.app.entities.UserEntity;
+import com.pokefarm.app.models.UserEntity;
 
-@Repository
-public interface UserRepository extends CrudRepository<UserEntity, Integer> {}
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {}

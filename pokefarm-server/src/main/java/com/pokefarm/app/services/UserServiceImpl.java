@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.annotations.VisibleForTesting;
 import com.pokefarm.app.constants.JsonConstants.JSON_KEYS;
 import com.pokefarm.app.constants.UserConstants.USER;
-import com.pokefarm.app.entities.UserEntity;
 import com.pokefarm.app.exceptions.UserCreationException;
+import com.pokefarm.app.models.UserEntity;
 import com.pokefarm.app.pojos.Pokemon;
 import com.pokefarm.app.pojos.User;
 import com.pokefarm.app.repositories.UserRepository;
@@ -37,7 +37,7 @@ import com.pokefarm.app.serialization.Serialization;
 @Service
 public class UserServiceImpl implements UserService {
 	
-//	@Autowired
+	@Autowired
 	private UserRepository userRepository;
 	
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);

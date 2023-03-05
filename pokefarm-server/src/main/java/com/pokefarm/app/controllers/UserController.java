@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.pokefarm.app.entities.UserEntity;
 import com.pokefarm.app.exceptions.UserCreationException;
+import com.pokefarm.app.models.UserEntity;
 import com.pokefarm.app.pojos.User;
 import com.pokefarm.app.repositories.UserRepository;
 import com.pokefarm.app.serialization.Serialization;
@@ -29,9 +29,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-//	@Autowired
-	UserRepository userRepository;
 	
 	private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 	
@@ -78,7 +75,6 @@ public class UserController {
 		try {
 			final User user = userService.createUser(userjsonNode);	
 			userService.saveUser(user, serialization);
-			userRepository.save(null);
 			userService.saveUserToDatabase(user);
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} catch (UserCreationException userCreationException) {

@@ -1,4 +1,4 @@
-package com.pokefarm.app.entities;
+package com.pokefarm.app.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,24 +22,25 @@ public class UserEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Integer id; // Database primary key
 	
-	@Column(nullable = false)
+	@Column(name = "user_id", nullable = false)
 	private String userId;
 	
-	@Column(nullable = false)
+	@Column(name = "user_name", nullable = false)
 	private String username;
 	
-	@Column(nullable = false)
+	@Column(name = "password", nullable = false)
 	private String password;
 	
-	@Column(nullable = false)
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(name = "money", nullable = false)
 	private int money; 
 	
-	@Column(nullable = false)
+	@Column(name = "pokemons", nullable = false)
 	private String pokemons;
 	
 

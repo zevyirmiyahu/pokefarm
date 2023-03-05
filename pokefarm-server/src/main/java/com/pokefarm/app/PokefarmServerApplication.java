@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 //@EntityScan(basePackages={"com.pokefarm.app.entities"}) 
 //@EnableJpaRepositories(basePackages = { "com.pokefarm.app.repositories" }) 
 
-@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
-//@SpringBootApplication
+//@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+@SpringBootApplication
 public class PokefarmServerApplication {
 
 	public static void main(String[] args) {
