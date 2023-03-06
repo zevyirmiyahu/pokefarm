@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.pokefarm.app.exceptions.UserCreationException;
 import com.pokefarm.app.models.UserEntity;
 import com.pokefarm.app.pojos.User;
-import com.pokefarm.app.repositories.UserRepository;
 import com.pokefarm.app.serialization.Serialization;
 import com.pokefarm.app.services.UserService;
 import com.pokefarm.app.services.email.EmailService;
@@ -35,27 +34,16 @@ public class UserController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/update-user", consumes = {"text/plain", "application/*"})
 	public ResponseEntity<User> updateUser(@RequestBody final JsonNode userField) {
-//		final UserService userService = new UserService();
-		User user = userService.updateUser(userField);
+//		User user = userService.updateUser(userField);
 		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<User>(new User(), HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/create", consumes = {"text/plain", "application/*"})
-	public ResponseEntity<User> createUser(@RequestBody final JsonNode userjsonNode) {
-//		final UserService userService = new UserService();
-		
+	public ResponseEntity<User> createUser(@RequestBody final JsonNode userJsonNode) {
 		try {
-			User user = userService.createUser(userjsonNode);
-			
-			/*
-			 * TODO: Uncomment this emailService code if you'd like to receive an email. See README.md for directions
-			 */
-			// emailService.sendEmail(user.getEmail(), user.getUsername());
-			
-			userService.saveUserToDatabase(user);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			return createOrSaveUser(userJsonNode, true);
 		} catch (UserCreationException userCreationException) {
 			final String errorMsg = "Exception occurred while trying to create a user";
 			LOGGER.error(errorMsg, userCreationException);
@@ -68,20 +56,36 @@ public class UserController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping(value = "/save-user", consumes = {"text/plain", "application/*"})
-	public ResponseEntity<User> saveUser(@RequestBody final JsonNode userjsonNode) {
-//		final UserService userService = new UserService();
-		final Serialization serialization = new Serialization();
-		
+	public ResponseEntity<User> saveUser(@RequestBody final JsonNode userJsonNode) {		
 		try {
-			final User user = userService.createUser(userjsonNode);	
-			userService.saveUser(user, serialization);
-			userService.saveUserToDatabase(user);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			return createOrSaveUser(userJsonNode, false);
 		} catch (UserCreationException userCreationException) {
 			final String errorMsg = "Exception occurred while trying to save a user";
 			LOGGER.error(errorMsg, userCreationException);
 		}
 		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+	}
+	
+	// On create we send an email else we do not.
+	private ResponseEntity<User> createOrSaveUser(final JsonNode userJsonNode, final boolean shouldCreateUser) throws UserCreationException {
+		final Serialization serialization = new Serialization();
+		final User user = userService.createUser(userJsonNode);
+		user.setIsNewUser(false); // ensure not a new user
+		
+		if (shouldCreateUser) {
+			/*
+			 * TODO: Uncomment this emailService code if you'd like to receive an email. See README.md for directions
+			 */
+			// emailService.sendEmail(user.getEmail(), user.getUsername());
+			UserEntity userEntity = userService.saveUserToDatabase(user);
+			user.setId(userEntity.getId()); // set DB Id
+			userService.saveUser(user, serialization);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} else {
+			userService.saveUser(user, serialization);
+			userService.saveUserToDatabase(user);
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		}
 	}
 	
 	@CrossOrigin(origins = "http://localhost:3000")

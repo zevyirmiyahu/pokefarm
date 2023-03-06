@@ -38,6 +38,8 @@ public class LoginController {
 		// Deserialize user data
 		User user = userService.loadUser(username, password, serialization);
 		LOGGER.info("Successfully Logged in User: " + username);
+		boolean val = user.getIsNewUser();
+		System.out.println(val);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }

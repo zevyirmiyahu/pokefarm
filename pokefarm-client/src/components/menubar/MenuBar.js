@@ -23,7 +23,7 @@ import { Menu } from "@mui/material";
  * @param {*} user
  * @param {*} setUser
  */
-const handleLogout = (navigate, pokemons, user, setUser) => {
+const handleLogout = (navigate, pokemons, user, setPokemons, setUser) => {
   axios
     .post(`${BASE_URL}/${END_POINTS.SAVE_USER}`, {
       ...user,
@@ -31,6 +31,7 @@ const handleLogout = (navigate, pokemons, user, setUser) => {
     })
     .then((response) => {
       setUser(null);
+      setPokemons(null);
       navigate(ROUTES.LOGIN_IN);
     })
     .catch((error) => {
@@ -41,7 +42,7 @@ const handleLogout = (navigate, pokemons, user, setUser) => {
 const MenuBar = () => {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
-  const { pokemons } = usePokemons();
+  const { pokemons, setPokemons } = usePokemons();
   const userId = user.userId;
   const username = user.username;
   const money = user.money;
@@ -76,7 +77,9 @@ const MenuBar = () => {
             <p style={{ marginLeft: "auto" }}>Account: {userId}</p>
             <Button
               id="profile-page-logout-button"
-              onClick={() => handleLogout(navigate, pokemons, user, setUser)}
+              onClick={() =>
+                handleLogout(navigate, pokemons, user, setPokemons, setUser)
+              }
               color="inherit"
             >
               Logout

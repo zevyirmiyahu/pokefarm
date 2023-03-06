@@ -27,7 +27,7 @@ export const handleLogin = (credentials, navigate, setUser, setPokemons) => {
   axios
     .post(`${BASE_URL}/${END_POINTS.LOGIN}`, credentials)
     .then((response) => {
-      const { userId, username, password, email, money, pokemons } =
+      const { userId, username, password, email, money, pokemons, isNewUser } =
         response.data;
       if (response.status === LOGIN.SUCCESS) {
         const userObject = new UserObject(
@@ -35,7 +35,8 @@ export const handleLogin = (credentials, navigate, setUser, setPokemons) => {
           username,
           password,
           email,
-          money
+          money,
+          isNewUser
         );
         setUser(userObject);
         setPokemons(pokemons);

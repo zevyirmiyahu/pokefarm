@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,6 +51,7 @@ public class UserServiceImpl implements UserService {
 			// Assign Unique User Id if ID is initial
 			String userId = user.getUserId();
 			user.setUserId(USER.INITIAL_ID.equals(userId) ? generateUserId() : userId );
+			user.setIsNewUser(false);
 			return user;
 		} catch (JsonProcessingException e) {
 			final String errorMsg = "Error occured while processing user json";
@@ -60,37 +60,30 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	/**
-	 * Save user data using serialization
-	 * @param user
-	 */
     @Override
 	public void saveUser(User user, final Serialization serialization) {
 		serialization.serializeUser(user);
 	}
-	
-	/**
-	 * Saves user to database
-	 * @param userEntity
-	 */
+    
     @Override
-	public void saveUserToDatabase(final User user) {
-		UserEntity userEntity = buildUserEntity(user);
-		userRepository.save(userEntity);
-	}
-	
+    public UserEntity saveUserToDatabase(final User user) {
+    	UserEntity userEntity = userRepository.findById(user.getId()).orElse(null);
+    	if(userEntity != null) {
+    		// update fields
+    		userEntity.setPokemons(stringifyPokemons(user.getPokemons()));
+    		userEntity.setMoney(user.getMoney());
+    		userEntity.setNewUser(user.getIsNewUser());
+    		return userRepository.save(userEntity);
+    	} else {
+    		return userRepository.save(buildUserEntity(user));
+    	}
+    }
+    
     @Override
 	public User loadUser(final String username, final String password, final Serialization serialization) {
 		final HashMap<String, User> users = serialization.deserializeUserList();
 		return getUser(username, password, users);
 	}
-	
-    @Override
-    public User updateUser(final JsonNode userField) {
-    	System.out.println(userField);
-    	// update in database
-    	return null;
-    }
     
 	private User getUser(final String username, final String password, final HashMap<String, User> users) {
 		/*
@@ -167,7 +160,7 @@ public class UserServiceImpl implements UserService {
 		final String adminEmail = "fake@mail.com";
 		final int adminMoney = 100;
 		final ArrayList<Pokemon> pokemons = new ArrayList<>();
-		User user = new User(adminUser, adminPassword, adminEmail, adminMoney, pokemons);
+		User user = new User(adminUser, adminPassword, adminEmail, adminMoney, true, pokemons);
 		user.setUserId(generateUserId());
 		
 		return user;
@@ -190,21 +183,28 @@ public class UserServiceImpl implements UserService {
 	 * @return
 	 */
 	private UserEntity buildUserEntity(final User user) {
-		
-		// Store pokemons as JSON in database for ease of storage
-		final JSONArray jsonArray = new JSONArray();
-		final String pokemons = jsonArray.put(user.getPokemons()).toString();
-		
 		final UserEntity userEntity = UserEntity.builder()
 				.userId(user.getUserId())
 				.username(user.getUsername())
 				.password(user.getPassword())
 				.email(user.getEmail())
 				.money(user.getMoney())
-				.pokemons(pokemons)
+				.pokemons(stringifyPokemons(user.getPokemons()))
+				.isNewUser(user.getIsNewUser())
 				.build();
 		
 		return userEntity;
+	}
+
+	/**
+	 * Store pokemons as JSON string in database for ease of storage
+	 * @param pokemons
+	 * @return
+	 */
+	private String stringifyPokemons(final List<Pokemon> pokemons) {
+		// Store pokemons as JSON in database for ease of storage
+		final JSONArray jsonArray = new JSONArray();
+		return jsonArray.put(pokemons).toString();
 	}
 	
 }

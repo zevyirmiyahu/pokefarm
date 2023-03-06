@@ -40,67 +40,9 @@ public class UserEntity {
 	@Column(name = "money", nullable = false)
 	private int money; 
 	
+	@Column(name = "isNewUser", nullable = false)
+	private boolean isNewUser;
+	
 	@Column(name = "pokemons", nullable = false)
 	private String pokemons;
-	
-
-//	// Setters
-//	public void setId(final Integer id) {
-//		this.id = id;
-//	}
-//	
-//	public void setUserId(final String userId) {
-//		this.userId = userId;
-//	}
-//
-//	public void setUserName(final String username) {
-//		this.username = username;
-//	}
-//	
-//	public void setPassword(final String password) {
-//		this.password = password;
-//	}
-//	
-//	public void setEmail(final String email) {
-//		this.email = email;
-//	}
-//	
-//	public void setMoney(final int money) {
-//		this.money = money;
-//	}
-//	
-//	public void setPokemons(final String pokemons) {
-//		this.pokemons = pokemons;
-//	}
-//	
-//	// Getters
-//	public Integer getId() {
-//		return id;
-//	}
-//	
-//	public String getUserId() {
-//		return userId;
-//	}
-//
-//
-//	public String getUsername() {
-//		return username;
-//	}
-//	
-//	public String getPassword() {
-//		return password;
-//	}
-//
-//
-//	public String getEmail() {
-//		return email;
-//	}
-//	
-//	public int getMoney() {
-//		return money;
-//	}
-//
-//	public String getPokemons() {
-//		return pokemons;
-//	}
 }

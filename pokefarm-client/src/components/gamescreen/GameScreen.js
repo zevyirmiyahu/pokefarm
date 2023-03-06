@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useAuth } from "../../routes/providers/AuthProvider";
 import { usePokemons } from "../../routes/providers/PokemonProvider";
 import Pokemon from "../pokemon/Pokemon";
@@ -17,43 +16,23 @@ import "./styles/gamescreen.scss";
 const BASE_STYLE = "pokemon-game-screen";
 
 // For choosing a pokemon to add to your farm.
-const handleSelectPokemon = (userId, pokemon, setPokemons) => {
-  const updatedPokemon = { userId, pokemons: [pokemon] };
+const handleSelectStarterPokemon = (
+  userId,
+  pokemon,
+  pokemons,
+  setPokemons,
+  user,
+  setUser
+) => {
+  // const updatedPokemon = { userId, pokemons: [pokemon] };
   axios
-    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
-    .then((response) => {
-      setPokemons(addPokemon(pokemon));
+    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, {
+      userId,
+      pokemons: [pokemon],
     })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-// TODO: Remove this has been moved to Pokemon component
-const handleWorkStatus = (pokemon, pokemons, setPokemons, user, setUser) => {
-  // limit work to ONLY 4 pokemon at a time
-  const totalWorking = pokemons.filter(
-    (pokemon) => pokemon.isWorking === true
-  ).length;
-
-  if (totalWorking >= 4) {
-    return;
-  }
-
-  const moneyEarned = pokemon.money;
-  const updatedPokemon = {
-    ...pokemon,
-    money: 0,
-    isWorking: !pokemon.isWorking,
-  };
-  axios
-    .post(`${BASE_URL}/${END_POINTS.UPDATE_USER}`, updatedPokemon)
     .then((response) => {
-      setUser({
-        ...user,
-        money: user.money + moneyEarned,
-      });
-      setPokemons(addPokemon(updatedPokemon, pokemons));
+      setUser({ ...user, isNewUser: false });
+      setPokemons(addPokemon(pokemon, []));
     })
     .catch((error) => {
       console.error(error);
@@ -120,9 +99,7 @@ const MainToolContent = ({ pokemons }) => {
  * Renders ONLY when user first creates account
  * @returns JSX
  */
-const StartContent = () => {
-  const { user } = useAuth();
-  const { pokemons, setPokemons } = usePokemons();
+const StartContent = ({ user, setUser, pokemons, setPokemons }) => {
   return (
     <div className={`${BASE_STYLE}-starter-container`}>
       <StarterMessageContent />
@@ -135,20 +112,41 @@ const StartContent = () => {
         >
           <Pokemon
             pokemonObject={pokemons[0]}
-            onClick={() =>
-              handleSelectPokemon(user.id, pokemons[0], setPokemons)
+            onStarterSelection={() =>
+              handleSelectStarterPokemon(
+                user.id,
+                pokemons[0],
+                pokemons,
+                setPokemons,
+                user,
+                setUser
+              )
             }
           />
           <Pokemon
             pokemonObject={pokemons[1]}
-            onClick={() =>
-              handleSelectPokemon(user.id, pokemons[1], setPokemons)
+            onStarterSelection={() =>
+              handleSelectStarterPokemon(
+                user.id,
+                pokemons[1],
+                pokemons,
+                setPokemons,
+                user,
+                setUser
+              )
             }
           />
           <Pokemon
             pokemonObject={pokemons[2]}
-            onClick={() =>
-              handleSelectPokemon(user.id, pokemons[2], setPokemons)
+            onStarterSelection={() =>
+              handleSelectStarterPokemon(
+                user.id,
+                pokemons[2],
+                pokemons,
+                setPokemons,
+                user,
+                setUser
+              )
             }
           />
         </Stack>
@@ -162,9 +160,7 @@ const StartContent = () => {
  * Content during main play
  * @returns JSX
  */
-const MainContent = () => {
-  const { user, setUser } = useAuth();
-  const { pokemons, setPokemons } = usePokemons();
+const MainContent = ({ user, setUser, pokemons, setPokemons }) => {
   let firstRowPokemons = pokemons;
   let secondRowPokemons = [];
   if (pokemons.length > 4) {
@@ -214,11 +210,11 @@ const MainContent = () => {
 /**
  * Renders the screens for the game
  * @component
- * @param {boolean} isStarterSelection - determines if user is new
  * @returns
  */
-const GameScreen = ({ isStarterSelection }) => {
-  const { setPokemons } = usePokemons();
+const GameScreen = () => {
+  const { user, setUser } = useAuth();
+  const { pokemons, setPokemons } = usePokemons();
   const [isLoading, setIsLoading] = useState(true);
 
   // Starter Pokemon
@@ -227,7 +223,7 @@ const GameScreen = ({ isStarterSelection }) => {
   const cyndaquilId = 155;
 
   useEffect(() => {
-    if (isStarterSelection) {
+    if (user.isNewUser) {
       getMultiPokemonData(
         [chikoritaId, totadileId, cyndaquilId],
         setPokemons
@@ -243,10 +239,24 @@ const GameScreen = ({ isStarterSelection }) => {
     return <p>Loading...</p>;
   }
 
-  if (isStarterSelection) {
-    return <StartContent />;
+  if (user.isNewUser) {
+    return (
+      <StartContent
+        user={user}
+        setUser={setUser}
+        pokemons={pokemons}
+        setPokemons={setPokemons}
+      />
+    );
   } else {
-    return <MainContent />;
+    return (
+      <MainContent
+        user={user}
+        setUser={setUser}
+        pokemons={pokemons}
+        setPokemons={setPokemons}
+      />
+    );
   }
 };
 
@@ -254,12 +264,6 @@ StartContent.propTypes = {};
 
 MainContent.propTypes = {};
 
-GameScreen.propTypes = {
-  /**
-   * Determines if user is a newly created user and needs to select
-   * his/her first starter Pokemon
-   */
-  isStarterSelection: PropTypes.bool.isRequired,
-};
+GameScreen.propTypes = {};
 
 export default GameScreen;

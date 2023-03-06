@@ -77,6 +77,7 @@ const getToolTipTitle = (id, name, types, isWorking) => {
 
 const Pokemon = ({
   className,
+  onStarterSelection,
   onPurchase,
   pokemonObject,
   isAnimated = true,
@@ -111,7 +112,9 @@ const Pokemon = ({
             disabled={disabled}
             variant="text"
             onClick={
-              onPurchase
+              onStarterSelection
+                ? () => onStarterSelection()
+                : onPurchase
                 ? () => {
                     const isBought = onPurchase();
                     setDisabled(isBought);
