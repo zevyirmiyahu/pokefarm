@@ -7,7 +7,14 @@ Pokemon to work. The Pokemon will earn money the that can be used to buy more Po
 If the working Pokemon is fired, the player will not get paid. The challenge is to recall the Pokemon before getting fired in a way to optimize earnings.
 
 ## Screenshots:
-Coming soon...
+### Login Screen
+![Login Screen](Images/login_screen.png)
+
+</br>
+
+### Main Game Screen
+![Main Screen](Images/main_screen.png)
+
 
 ## Tech Used: ![Mew](Images/151.png)
 ### **Frontend**
